@@ -1762,6 +1762,10 @@ body.hmhome:has(.mgear) .wrap{padding-top:24px}   /* マスター版だけ：⚙
 .hmtile.hmlock{border:1.5px dashed var(--line);background:transparent;color:var(--sub)}
 .hmtile.hmlock .tx b{color:var(--sub)}
 .hmtile.hmlock.hmgo::after{border-color:var(--sub)}
+.hmtiles>.bsbtn.kkbtn{min-height:54px;padding:5px 10px;gap:8px}   /* U36：ボスのない章のホームの、こよみの挑戦状の枠（色は kakushi.css のまま。大きさをタイルにそろえる） */
+.hmtiles>.bsbtn.kkbtn .no{width:28px;height:28px;font-size:14px}
+.hmtiles>.bsbtn.kkbtn .tx b{font-size:15px;line-height:1.3}
+.hmtiles>.bsbtn.kkbtn .tx span{display:block;font-size:11px;line-height:1.35}
 /* 通史の並べかえ・入試の陣（21・22 のカード）を、タイルの形に */
 .hmx{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .hmx>.card{border:0;padding:0;margin:0;background:none;border-radius:0}
@@ -1810,6 +1814,8 @@ body.hmhome:has(.mgear) .wrap{padding-top:24px}   /* マスター版だけ：⚙
  .hmtiles,.hmx{gap:6px}
  .hmtile,.mbtn.hmtile,.hmx .mbtn{min-height:44px;padding:3px 10px}
  .hmtile .tx b,.hmx .mbtn .tx b{font-size:14px}
+ .hmtiles>.bsbtn.kkbtn{min-height:44px;padding:3px 10px}
+ .hmtiles>.bsbtn.kkbtn .tx b{font-size:14px}
  .home .koimg{height:64px}
  .home .lkwrap{padding-top:20px}
  .hmtabb{min-height:46px}
@@ -5208,6 +5214,7 @@ function menu(){
     if(!L.length||bossVisible(d,CH))tiles+=`<button class="hmtile hmgo" id="toBoss"><span class="tx"><b>試験官との勝負</b><span>${L.length?`挑戦できる ${L.filter(b=>bossCan(d,b)).length}人`:"準備中"}</span></span></button>`;
     else{const b=L.slice().sort((x,y)=>bossProg(d,y)/bossIds(y).length-bossProg(d,x)/bossIds(x).length)[0];
       tiles+=`<button class="hmtile hmlock hmgo" id="toBoss"><span class="tx"><b>🔒 試験官との勝負</b><span>今 ${bossProg(d,b)} / ${bossIds(b).length}問</span></span></button>`}}
+  else if(chNone(CH,"boss")&&typeof kkChalBtn==="function")tiles+=kkChalBtn(d);   // U36：ボスのない章（北極星の章など）でも、こよみの挑戦状が届いていれば、試験官のタイルの場所に挑戦状の枠だけ（26 の kkChalBtn をそのまま。試験官・地図のタイルは出さない）
   const xt=tsuMenuHtml(d)+jinMenuHtml(d);   // 通史の並べかえ・入試の陣（持っている子だけ。21・22 のカードを、home.css でタイルの形にする）
   let kb="";if(typeof kbN==="function"){kbR(d);const [kn,kt]=kbN(d);if(kt&&late("kb"))kb=`<span class="kbm hmkb">見聞 <b>${kn}</b>／${kt}</span>`}   // レベルの帯の3行目は、見聞の数（G2。見聞が広がるまでは「次のレベルまで あと○ EXP」）。くわしい帯と段・次のレベルまでは「くわしく」
   const szNew=chSzNew(d);   // 星座が届いた！（章のしくみの7）
@@ -5233,6 +5240,7 @@ function menu(){
   const by=id=>document.getElementById(id),on=(id,f)=>{const b=by(id);if(b)b.onclick=f};
   by("today").onclick=()=>{if(todayCount(load()))start("R",todayItems(load()))};
   on("toLv",lvView);on("toMore",moreView);on("toCh",chView);on("toSets",setsView);on("toWeak",weakView);on("toAdv",advView);on("toBoss",bossView);
+  app.querySelectorAll(".hmtiles [data-boss]").forEach(x=>x.onclick=()=>bossIntro(x.dataset.boss));   // U36：ホームの挑戦状の枠（12 の bossIntro → 26 の kkChalIntro）
   on("toAdvLock",()=>popup(advLockHtml(load(),chCur())));
   hmTabs("home");   // 下のタブ（#toMap・#toSkill・#toZukan・#toShop。34_home.js）
   wdMenuBind();   // 銭が届いた一行の「見る」（C5）
