@@ -5038,7 +5038,7 @@ function menu(){
     <span class="pinfo"><span class="hmlv1"><span class="rank">${r[1]}</span><span class="hmlvm">くわしく</span></span><span class="expbar"><i style="width:${L.rest/L.need*100}%"></i></span>
     <span class="stats">${kb||`次のレベルまで あと ${L.need-L.rest} EXP`}</span></span></button></div>
   ${koMenuHtml(d)||(typeof srMenuHtml==="function"?srMenuHtml(d):"")||guideIntroHtml(d)}
-  <button class="today ${tc?"":"done"}" id="today">${tc?`<div class="k">今日の復習</div><div class="n">残り ${tc}<small> 問</small></div><div class="s">まちがえた問題と、忘れかけた問題${tc>20?"（1回20問まで）":""}・時間制限なし</div>`:d.plays?`<div class="k">今日の復習</div><div class="n">今日の分は終わり！</div><div class="s">ミックスで、新しい問題を覚えよう</div>`:`<div class="k">今日の復習</div><div class="n">まだありません</div><div class="s">ミックスでまちがえた問題が、ここに入ります</div>`}</button>${szNew?`<button class="chsz" id="chSz" data-ch="${szNew}"><b>🌟 ${chNo(szNew)}の星座が届いた！</b><small>★3にした問題が、${chSky(szNew)}に灯る。押して見に行こう</small></button>`:""}
+  <button class="today ${tc?"":"done"}" id="today">${tc?`<div class="k">今日の復習</div><div class="n">残り ${tc}<small> 問</small></div><div class="s">まちがえた問題と、忘れかけた問題${tc>20?"（1回20問まで）":""}・時間制限なし</div>`:d.plays?`<div class="k">今日の復習</div><div class="n">今日の分は終わり！</div><div class="s">${typeof guideMixDone==="function"&&guideMixDone(d)?"★は、日をあけて正解すると上がる。続きは明日。":"ミックスで、新しい問題を覚えよう"}</div>`:`<div class="k">今日の復習</div><div class="n">まだありません</div><div class="s">ミックスでまちがえた問題が、ここに入ります</div>`}</button>${szNew?`<button class="chsz" id="chSz" data-ch="${szNew}"><b>🌟 ${chNo(szNew)}の星座が届いた！</b><small>★3にした問題が、${chSky(szNew)}に灯る。押して見に行こう</small></button>`:""}
   ${wdUpMenuHtml(d)}
   ${grMenuHtml(d)}
   <div class="hmch"><div class="hmk">学ぶ章</div>
@@ -9800,6 +9800,7 @@ function koAdvice(d){
   if(sn)return ["joy",koSl(sn),["skill","スキルを付ける"]];
   if(w)return ["normal",koWd3(w),["wdshop","拾いに行く"]];
   if(typeof honDay==="function"&&!honDay(d).played.length)return ["cheer","今日はまだ挑戦していないね。『ミックス』で、プリントで覚えたことを確かめよう。"];
+  if(typeof guideMixDone==="function"&&!guideMixDone(d))return ["cheer","ミックスで、まだ★3になっていない問題を確かめよう。"];   // 相談44（D50 の8、v59）：「今日の分は終わり」は 16 の guideMixDone（「次はここ」と同じ判断）。文も「次はここ」と同じ
   return ["joy","今日の分は、もう済んでいるよ。★は、日をあけて正解すると上がるんだ。今日は、プリントの見直しをしておこう。"];
 }
 const KO_TIPS=[
@@ -13260,7 +13261,7 @@ const CD_B=[
  (c,n,k,m)=>["normal",`${koChName(n)}は、★3が${k}／${m}問。続きは、そこから始めよう。`,CD_BTN],
  (c,n)=>["cheer",`★3になった章をくり返すより、まだ★3でない問題を探しにいこう。${koChName(n)}がおすすめだよ。`,CD_BTN]];
 const CD_C=["surprise","届いた章の問題が、全部★3になったよ！ 『章をまたぐミックス』で、章をまぜて確かめてみよう。",CD_BTN];
-const CD_F=["今日はまだ挑戦していないね。『ミックス』で、プリントで覚えたことを確かめよう。","今日の分は、もう済んでいるよ。★は、日をあけて正解すると上がるんだ。今日は、プリントの見直しをしておこう。"];
+const CD_F=["今日はまだ挑戦していないね。『ミックス』で、プリントで覚えたことを確かめよう。","今日の分は、もう済んでいるよ。★は、日をあけて正解すると上がるんだ。今日は、プリントの見直しをしておこう。","ミックスで、まだ★3になっていない問題を確かめよう。"];   // 相談44（v59）：24 の koAdvice の3つ目の一言も B・C に置きかえる
 function cdB(d){const s=cdNow(d);if(!s)return null;if(s.all)return CD_C.slice();
   const q=chQ(s.n),k=hmS3(d,q.map(x=>x.id)),f=CD_B[Math.floor(Date.now()/DAY)%CD_B.length];return f(s.c,s.n,k,q.length)}
 {const a0=koAdvice;koAdvice=function(d){const r=a0.apply(this,arguments);
