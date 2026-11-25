@@ -540,7 +540,7 @@ u.gj{text-decoration:none;background:#ffe08a;border-bottom:2px solid #d08a00;pad
 .kufx{position:fixed;inset:0;z-index:21;background:#000;display:flex;align-items:center;justify-content:center;animation:kubg var(--t,3000ms) ease-out forwards}
 @keyframes kubg{0%{background:rgba(0,0,0,.4)}10%,100%{background:#000}}
 .kufx::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 50% 50%,transparent 40%,rgba(90,0,0,.45) 100%);pointer-events:none}
-.kutx{writing-mode:vertical-rl;-webkit-writing-mode:vertical-rl;text-orientation:upright;font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP","Noto Serif CJK JP",serif;
+.kutx{writing-mode:vertical-rl;-webkit-writing-mode:vertical-rl;text-orientation:mixed;font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP","Noto Serif CJK JP",serif;
  font-size:30px;line-height:1.6;letter-spacing:.32em;color:#e8dcd2;text-shadow:0 0 8px rgba(160,20,20,.8);max-height:86vh;position:relative}
 .kutx span{display:inline-block;opacity:0;animation:kuch .7s ease-out var(--d) forwards}
 @keyframes kuch{from{opacity:0;filter:blur(6px)}to{opacity:1;filter:blur(0)}}
@@ -5103,10 +5103,11 @@ function backBar(name,sel,sel2){
 }
 function a2hsHelp(){
   popup(`<div class="tag">ホーム画面に追加のしかた</div>
-  <p style="font-size:13px">ホーム画面に追加すると、アプリのように1タップで開けます。iPhoneのSafariは、7日間開かないサイトの記録を消すことがありますが、ホーム画面に追加したものは消えにくくなります。</p>
-  <h4>iPhone（Safari）</h4><ol><li>このページをSafariで開く（LINEの中で開いているときは、右下や右上のメニューから「Safariで開く」）</li><li>下の共有ボタン（四角から矢印が出ているマーク）をタップ</li><li>「ホーム画面に追加」をタップ</li></ol>
+  <p style="font-size:13px">ホーム画面に追加すると、アプリのように1タップで開けます。iPhoneでは、7日間開かないサイトの記録が消えることがありますが、ホーム画面に追加したものは消えにくくなります。</p>
+  <h4>iPhone（Safari）</h4><ol><li>このページをSafariで開く（ほかのアプリの中の画面で開いているときは、画面の［…］か共有のボタンから「Safariで開く」）</li><li>アドレス欄の横の共有ボタン（四角から矢印が出ているマーク）をタップ。見当たらないときは［…］の中にある</li><li>「ホーム画面に追加」をタップ（見えないときは、下へ動かすか「その他」の中）</li><li>右上の「追加」をタップ</li></ol>
+  <h4>iPhone（Chrome）</h4><ol><li>このページをChromeで開く</li><li>アドレス欄の右の共有ボタンをタップ（右下の［…］のメニューにはありません）</li><li>「ホーム画面に追加」→ 右上の「追加」をタップ</li></ol>
   <h4>Android（Chrome）</h4><ol><li>このページをChromeで開く</li><li>右上の︙（メニュー）をタップ</li><li>「ホーム画面に追加」をタップ</li></ol>
-  <p style="font-size:12px;color:var(--sub);margin-top:8px">ホーム画面のアイコンから開いたときと、ブラウザで開いたときとでは、記録が別になることがあります。いつも同じ方法で開こう。</p>`);
+  <h4>気をつけること</h4><ul style="padding-left:20px;font-size:14px"><li style="margin-bottom:4px">iPhoneでは、Safari・Chrome・ホーム画面のアイコンで記録が別々です。追加したら、いつもアイコンから開こう。</li><li style="margin-bottom:4px">先にブラウザで解いた記録は、アイコンのほうには入りません。続けたいときは「記録の書き出し・読み込み」で書き出して、アイコンから開いたほうで読み込もう。</li><li style="margin-bottom:4px">プライベートブラウズ（Safari）やシークレット（Chrome）では開かないで。閉じると記録が消えます。</li></ul>`);   // IP1（2026-11-25）：iPhone の Chrome の手順・Safari の共有ボタンの場所・気をつけること〈文は相談41 で副塾長が確定〉
 }
 
 /* ===== 予報 ===== */
@@ -11538,7 +11539,7 @@ const KR_TXT={
   appIos:"iPhone：画面の［…］か共有のボタンから「Safariで開く」を選んで、開き直そう。",
   appAnd:"Android：右上の［︙］から「他のアプリで開く」を選んで、Chromeで開き直そう。",
   a2hs:"ホーム画面に追加しておくと、記録が消えにくくなります。",
-  a2hsIos:"Safariのままだと、7日開かないと記録が消えることがあります。",
+  a2hsIos:"ブラウザで開いたままだと、7日開かないと記録が消えることがあります。",
   // ① 読み込みの確かめの箱と、1つ前の記録
   askTtl:"記録を読み込みますか？",
   askNow:"今の記録",askNew:"読み込む記録",askNone:"まだ記録なし",
