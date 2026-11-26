@@ -221,6 +221,16 @@ header h1 small{display:block;font-size:11px;color:var(--sub);font-weight:500}
 .chsz{display:block;width:100%;margin-top:12px;text-align:left;border:2px solid #26325e;border-radius:16px;background:linear-gradient(135deg,#0a1030,#26325e);color:#e8eeff;padding:12px 16px;cursor:pointer;box-shadow:0 3px 0 #0a1030}
 .chsz b{display:block;font-size:16px;color:#ffe08a}
 .chsz small{font-size:12px;color:#c9d3f5}
+/* SS1（画面のすっきり、相談51）：見出しの「？」・たたんだ行（スキル・図鑑） */
+.sshd{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.sshd .tag{margin-bottom:0}
+.ssq{flex:none;width:26px;height:26px;border-radius:50%;border:1.3px solid var(--sub);background:#fff;color:var(--sub);font-size:14px;font-weight:700;line-height:1;padding:0;cursor:pointer}
+.ssfold>summary{list-style:none;display:flex;align-items:center;gap:6px;min-height:44px;padding:8px 12px;border:1.5px dashed #b9b2a2;border-radius:12px;background:#faf8f3;font-size:14px;font-weight:700;color:#5b5446;cursor:pointer}
+.ssfold>summary::-webkit-details-marker{display:none}
+.ssar{margin-left:auto;font-size:11px;color:var(--sub);transition:transform .2s}
+.ssfold[open]>summary .ssar,.kbzb.on .ssar{transform:rotate(90deg)}
+.ssfold[open]>summary{margin-bottom:8px}
+.lowfx .ssar{transition:none}
 /* 地図 */
 .mapbox{background:#dfeef5;border-radius:14px;border:1.5px solid var(--ink);overflow:hidden}
 .mapbox svg{display:block;width:100%;height:auto}
@@ -257,6 +267,14 @@ textarea{width:100%;font:12px/1.4 monospace;border:1.5px solid var(--ink);border
 .fx.lvfx .box .k,.fx.lvfx .box .s{color:#fff}
 @keyframes fxin{0%{transform:scale(.6) rotate(-4deg);opacity:0}100%{transform:none;opacity:1}}
 .lowfx .mptw,.lowfx .mpmilky,.lowfx .mprgl{animation:none}
+/* SS1（S1〜S6、相談51）：右上の札・小さな［資料と出典］・地方の箱の数 */
+.mpsora{margin-left:auto;flex:none;min-height:30px;font-size:12.5px;font-weight:700;border-radius:15px;padding:4px 12px;border:1.2px solid #9c9584;background:#eef6fa;color:#333;cursor:pointer;white-space:nowrap}
+.mpsora.mps1{background:#fbe3cf;border-color:#b98b7e;color:#3a2626}
+.mpsora.mps2,.mpsora.mps3{background:#141d4c;border-color:#53639c;color:#dfe6ff}
+.mpcard .row{margin-top:10px}
+.mpsub{justify-content:center;margin-top:6px!important}
+.mpsub .btn{flex:none;font-size:13px;padding:7px 16px;font-weight:600}
+.mpinfo{font-size:13px;color:var(--sub);margin:6px 0 0}
 /* 夜空と星座 */
 .szwrap{background:#070b1d;color:#e8eeff;border-radius:16px;padding:12px 12px 14px;border:1.5px solid var(--ink)}
 .szhead{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;margin-bottom:6px}
@@ -1048,6 +1066,12 @@ html.kbg8:not(.hon-mode):not(.tenka-mode) .links,html.kbg8:not(.hon-mode):not(.t
 .kbun small{display:block;font-weight:400;font-size:11.5px;color:var(--sub)}
 .kbup.wait{opacity:0;transform:scale(.92)}
 .kbup.on{opacity:1;transform:scale(1);transition:opacity .35s,transform .35s}
+/* SS1（S8、相談51）：図鑑の章の行（押すとその章のカード） */
+.kbzb{width:100%;min-height:40px;background:#fff;color:inherit;font:inherit;font-size:12.5px;text-align:left;cursor:pointer;position:relative;padding-right:28px}
+.kbzb .ssar{position:absolute;right:10px;top:calc(50% - 8px);line-height:16px}
+.kbzb.on{border-color:var(--ink);border-width:1.5px}
+.kbzbody{padding:2px 2px 8px}
+.kbzbody .zh:first-child{margin-top:6px}
 /* ===== 超上級「理由まで見抜く」（S1、D13）：上級編のカードの中のボタンと鍵・まちがいの文の枠 ===== */
 .mbtn.sup{border-color:#3b3f8f}
 .mbtn.sup .no{background:#3b3f8f;color:#fff;border:none;font-size:15px}
@@ -5709,18 +5733,24 @@ function dataView(o){
 
 /* ===== 図鑑 ===== */
 let zkSort="kind";
+let zkCh;   // SS1（S8）：開いている章（はじめは今の章。もう一度押すと閉じる）
 function zukan(){
   const d=load(),desc=opened(d,"f:zkdesc"),canSort=opened(d,"f:zksort");
   const cell=q=>d.cards.includes(q.id)?`<button class="zc ${effM(d,q.id)===5?"goldc":""}${maskCardCls(d,q.id)}${typeof sjCardCls==="function"?sjCardCls(d,q.id):""}" data-id="${q.id}"><span class="ic">${q.s==="C"?"👤":"📜"}</span>${q.a}<small>${YOMI[q.a]||""}</small></button>`:`<div class="zc lock">？</div>`;
   const grid=list=>`<div class="zgrid">${list.map(cell).join("")}</div>`;
-  let body;
-  if(canSort&&zkSort==="era"){body=ERAS.filter(e=>CARDQ.some(q=>q.era===e)).map(e=>`<div class="zh">${eraName(e)}</div>${grid(CARDQ.filter(q=>q.era===e))}`).join("")}
-  else body=`<div class="zh">語句</div>${grid(CARDQ.filter(q=>q.s==="A"))}<div class="zh">人物</div>${grid(CARDQ.filter(q=>q.s==="C"))}`;
-  app.innerHTML=`<div class="card"><div class="tag">図鑑　${d.cards.length} / ${CARDQ.length}</div>${kbZukanHtml(d)}${typeof sjZukanHtml==="function"?sjZukanHtml(d):""}
+  // SS1（S8、相談51）：章の行を押すと、その章のカードが開く。開いた章も、手に入れたカードと「まだ ○枚 ▶」の1行だけ（押すと今と同じ「？」の枠）
+  const chC=ch=>CARDQ.filter(q=>q.ch===ch);
+  if(zkCh===undefined)zkCh=chC(chCur()).length?chCur():null;
+  const body=ch=>{const C=chC(ch),own=C.filter(q=>d.cards.includes(q.id)),rest=C.filter(q=>!d.cards.includes(q.id));
+    const b=canSort&&zkSort==="era"?ERAS.filter(e=>own.some(q=>q.era===e)).map(e=>`<div class="zh">${eraName(e)}</div>${grid(own.filter(q=>q.era===e))}`).join("")
+      :[["A","語句"],["C","人物"]].filter(([s])=>own.some(q=>q.s===s)).map(([s,nm])=>`<div class="zh">${nm}</div>${grid(own.filter(q=>q.s===s))}`).join("");
+    return b+(rest.length?`<details class="ssfold zkfold"><summary>まだ${rest.length}枚<span class="ssar">▶</span></summary>${grid(rest)}</details>`:"")};
+  app.innerHTML=`<div class="card"><div class="tag">図鑑　${d.cards.length} / ${CARDQ.length}</div>${typeof sjZukanHtml==="function"?sjZukanHtml(d):""}
   <p class="lead">同じ問題に、日をあけて何回か正解すると（★3）、カードが手に入ります。★5のカードは金色に光ります。</p>
   ${canSort?`<div class="seg"><button data-s="kind" class="${zkSort==="kind"?"on":""}">種類順</button><button data-s="era" class="${zkSort==="era"?"on":""}">時代順</button></div>`:""}
-  ${body}<div class="row"><button class="btn ghost" id="back">メニューへ</button></div></div>`;
+  ${kbZukanHtml(d,{open:zkCh,all:!!HK.zkAll,n:ch=>chC(ch).length,body})}<div class="row"><button class="btn ghost" id="back">メニューへ</button></div></div>`;
   app.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{zkSort=b.dataset.s;zukan()});
+  app.querySelectorAll("[data-zch]").forEach(b=>b.onclick=()=>{const ch=b.dataset.zch;zkCh=zkCh===ch?null:ch;zukan();const r=app.querySelector(`[data-zch="${ch}"]`);if(r)r.scrollIntoView({block:"nearest"})});
   app.querySelectorAll(".zc[data-id]").forEach(b=>b.onclick=()=>{
     const q=QBY[b.dataset.id];
     const pe=popup(`<div class="tag">${LAB[q.s]}　${qSec(q).name}のカード</div>
@@ -5874,8 +5904,9 @@ function mapRegSVG(d,S){
       if(nm===MP_OKI)sky+=`<path d="${MAPD.south}" fill="#2a3570" fill-opacity=".55" stroke="${hc}" stroke-width=".6" stroke-opacity=".8" pointer-events="none"/>`}   // TK1：夜空になった沖縄・奄美の枠の上に、島の形をうすく
     const [lx,ly]=MPLAB[nm],lit=kin||medal,col=lit?(S.st>=2?"#ffffff":T.ink):T.sub;
     const t=nm+(stt==="lock"||stt==="wait"?" ？":medal?" 🏅":"");
+    const dt=kin&&chHas(pch,"sz")?mpDots(d,pch,nm,lx,ly):"";   // SS1（S2、相談51）：完成した星座の数の点
     lab+=`<g data-reg="${nm}" style="cursor:pointer"><rect x="${lx-26}" y="${ly-14}" width="52" height="20" fill="transparent"/>
-    <text x="${lx}" y="${ly}" text-anchor="middle" font-size="${lit?12:10.5}" font-weight="700" fill="${col}" stroke="${T.halo}" stroke-width="2.8" paint-order="stroke" stroke-linejoin="round">${t}</text></g>`;
+    <text x="${lx}" y="${ly}" text-anchor="middle" font-size="${lit?12:10.5}" font-weight="700" fill="${col}" stroke="${T.halo}" stroke-width="2.8" paint-order="stroke" stroke-linejoin="round">${t}</text>${dt}</g>`;
     lab+=bossMapMark(d,nm,x,y);
   });
   // 地方の境目（星座の線のような点線）
@@ -5883,39 +5914,57 @@ function mapRegSVG(d,S){
   return land+sky+bd+lab;
 }
 
+/* --- SS1（画面のすっきり、相談51・2026-11-26 22:47 決定）：地図の画面は「こよみの一言 → 地図 → 札1つ → ボタン」。
+   S1 本文の説明4文は「？」の箱へ（初見の説明・天文台の手引きでも読める）／S2 地方の行は、地方の名前の下の点と、地方をタップした箱の数へ／
+   S3 朱印の行は、地図の「合」をタップした箱へ（12 の bossMapMark）／S4 空の行は、右上の札（タップで今までの行）／S5「？」の地方の1文は消した（その地方をタップした箱がある）／
+   S6 ボタンは［夜空を見る］と小さな［資料と出典］（下のタブがあるので［メニューへ］はない） --- */
+// 地方の名前の下（中部・東北は「合」の朱印をよけて上）に、その章の星座の数だけ点。完成した星座の点が光る（虹の星座は虹の縁）
+const MP_DOTUP={中部:1,東北:1};
+function mpDots(d,ch,nm,lx,ly){
+  const z=SZ.filter(c=>c.ch===ch),n=z.length;if(!n)return "";
+  const g=5.6,w=n*g+3,x0=lx-w/2,y=MP_DOTUP[nm]?ly-18:ly+8,dn=z.filter(c=>szFlags(c,d).complete).length;
+  let s=`<g class="mpdots" data-dn="${dn}" data-n="${n}"><rect x="${x0.toFixed(1)}" y="${y-4}" width="${w.toFixed(1)}" height="8" rx="4" fill="#0a1030" fill-opacity=".72" stroke="#8fa4e8" stroke-opacity=".6" stroke-width=".5"/>`;
+  z.forEach((c,i)=>{const f=szFlags(c,d),cx=(x0+1.5+g*(i+.5)).toFixed(1);
+    s+=f.complete?`<circle class="on" cx="${cx}" cy="${y}" r="1.8" fill="${f.full?"#fff6c8":"#ffd34d"}"${f.full?` stroke="#d58cff" stroke-width=".7"`:""}/>`:`<circle cx="${cx}" cy="${y}" r="1.4" fill="none" stroke="#8e9bc4" stroke-width=".6"/>`});
+  return s+"</g>";
+}
+// 地方をタップした箱に出す数（今までの「地図の下の行」と同じ形。行のはじめの地方の名前は、箱の見出しにあるので付けない）
+function mpRegInfo(d,nm,ch){
+  const q=chQ(ch),z=SZ.filter(c=>c.ch===ch);
+  return `星 ${q.filter(x=>effM(d,x.id)>=3).length}/${q.length}（金 ${q.filter(x=>effM(d,x.id)===5).length}）・完成した星座 ${z.filter(c=>szFlags(c,d).complete).length}/${z.length}`
+   +(nm==="近畿"&&regionState(d,"近畿")==="build"?`<br>★3が${CFG.road["f:kinki"]}問で、近畿のパネルが完成`:"");
+}
+// 右上の札（S4）：「昼 → 夕方まで あと2」。いちばん暗い段（天の川）は今の段の名前だけ
+const mpSoraTxt=S=>S.next!=null?`${S.name} → ${MP_NAME[S.st+1]}まで あと${S.next-S.R}`:S.name;
 function mapView(){
-  const d=load(),s3=s3Of(d);
+  const d=load();
   const fxs=szCheck(d);
   const S=mapSkyOf(d),wi=mapWinIdx(d);
   const svg=`<svg viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg">`+mapSkySVG(S)+mapRegSVG(d,S)+mapWinSVG(d,wi,S)+`</svg>`;
-  const H1=advCh(),Q1=chQ(H1),Z1=SZ.filter(c=>c.ch===H1);   // 近畿＝第1章（K2）
-  const golds=Q1.filter(q=>effM(d,q.id)===5).length,dn=Z1.filter(c=>szFlags(c,d).complete).length;
-  const s31=Q1.filter(q=>effM(d,q.id)>=3).length,multi=chList().length>1;
-  // 第2章からの章の行（K2）
-  const chNote=chList().slice(1).filter(ch=>chOf(ch).panel&&!chNone(ch,"map")).map(ch=>{const q=chQ(ch),z=SZ.filter(c=>c.ch===ch),p=chOf(ch).panel,s=q.filter(x=>effM(d,x.id)>=3).length;
-    return chHas(ch,"sz")?`<br>${p}：星 ${s}/${q.length}（金 ${q.filter(x=>effM(d,x.id)===5).length}）・完成した星座 ${z.filter(c=>szFlags(c,d).complete).length}/${z.length}`:`<br>${p}：${chNo(ch)}の星座は、まもなく届く（★3 ${s}/${q.length}）`}).join("");
+  const H1=advCh(),multi=chList().length>1;   // 近畿＝第1章（K2）
+  const lead=`★3にした問題ごとに、${multi?"その章の地方の夜空":"近畿の夜空"}に星が1つ灯ります。★5で金の星になります。地方をタップすると、その章の夜空と問題に行けます（海の上の小窓は、夜空へ）。虹になった星座が増えるほど、地図の空が昼→夕方→夜に変わります。`;
   const skyMsg=`空：${S.name}（虹の星座 ${S.R}/${SZ.length}${S.next!=null?`。あと${S.next-S.R}つで${MP_NAME[S.st+1]}`:""}）`;
-  app.innerHTML=`${typeof mpKoHtml==="function"?mpKoHtml(d):""}<div class="card"><div class="tag">日本地図</div>
-  <p class="lead">★3にした問題ごとに、${multi?"その章の地方の夜空":"近畿の夜空"}に星が1つ灯ります。★5で金の星になります。地方をタップすると、その章の夜空と問題に行けます（海の上の小窓は、夜空へ）。虹になった星座が増えるほど、地図の空が昼→夕方→夜に変わります。</p>
+  app.innerHTML=`${typeof mpKoHtml==="function"?mpKoHtml(d):""}<div class="card mpcard"><div class="sshd"><div class="tag">日本地図</div><button type="button" class="ssq" id="mpQ" aria-label="日本地図の説明">？</button><button type="button" class="mpsora mps${S.st}" id="mpSora">${mpSoraTxt(S)}</button></div>
   <div class="mapbox mp${S.st}">${svg}</div>
-  <p class="mapnote">${skyMsg}<br>近畿：星 ${s31}/${Q1.length}（金 ${golds}）・完成した星座 ${dn}/${Z1.length}${regionState(d,"近畿")==="build"?`<br>★3が${CFG.road["f:kinki"]}問で、近畿のパネルが完成`:""}${opened(d,"f:kyushu")?`<br>九州：上級編の称号の記念のパネル`:""}${chNote}${bossMapNote(d)}<br>名前に「？」のある地方は、これから届く章で見られるようになります。</p>
   <div class="row"><button class="btn" id="toSky">${multi?"夜空を見る":"近畿の夜空を見る"}</button></div>
-  <div class="row"><button class="btn ghost" id="toSrc">資料と出典</button><button class="btn ghost" id="back">メニューへ</button></div></div>`;
+  <div class="row mpsub"><button class="btn ghost" id="toSrc">資料と出典</button></div></div>`;
   app.querySelectorAll("[data-reg]").forEach(g=>g.onclick=()=>{
     const nm=g.dataset.reg,stt=regionState(d,nm);
     if(stt==="lock")return popup(`<b>${nm}</b><p style="font-size:13px;margin-top:6px">まだ見られません。これから届く章の問題に取り組むと、見られるようになります。</p>`);
-    if(stt==="wait")return popup(`<b>${nm}　${chFull(chOfPanel(nm))}</b><p style="font-size:13px;margin-top:6px">この章の星座は、まもなく届く。★3にした問題は記録されていて、星座が届くと夜空に灯ります。</p>`);
+    if(stt==="wait"){const wc=chOfPanel(nm),wq=chQ(wc);return popup(`<b>${nm}　${chFull(wc)}</b><p style="font-size:13px;margin-top:6px">この章の星座は、まもなく届く。★3にした問題は記録されていて、星座が届くと夜空に灯ります。</p><p class="mpinfo">★3 ${wq.filter(x=>effM(d,x.id)>=3).length}/${wq.length}</p>`)}
     if(nm==="九州")return kyushuView();
     const pc=chOfPanel(nm);
-    // U10（③、D28：地方から章へ）：地方をタップすると、小さな箱で「夜空を見る」「この章に挑戦する」を選べる（九州と、まだ星座のない章はそのまま）
-    if(typeof mpAsk==="function")return mpAsk(nm,pc||H1,()=>pc&&pc!==H1?skyView(szFirst(d,pc)):skyView());
+    // U10（③、D28：地方から章へ）：地方をタップすると、小さな箱で「夜空を見る」「この章に挑戦する」を選べる（九州と、まだ星座のない章はそのまま）。SS1：箱に、その地方の数
+    if(typeof mpAsk==="function")return mpAsk(nm,pc||H1,()=>pc&&pc!==H1?skyView(szFirst(d,pc)):skyView(),mpRegInfo(d,nm,pc||H1));
     if(pc&&pc!==H1)return skyView(szFirst(d,pc));   // K2：章のパネルは、その章の夜空へ
     skyView();
   });
+  app.querySelectorAll("[data-seal]").forEach(g=>g.onclick=e=>{e.stopPropagation();const b=BOSS.find(x=>x.id===g.dataset.seal);if(b)popup(`<p style="font-size:14px;padding-right:34px">${bossMapLine(b)}</p>`)});   // S3：「合」の朱印
   app.querySelector("[data-win]").onclick=()=>skyView(wi);
+  document.getElementById("mpQ").onclick=()=>popup(`<div class="tag">日本地図</div><p style="font-size:14px;margin-top:10px">${lead}</p>`);   // S1
+  document.getElementById("mpSora").onclick=()=>popup(`<p style="font-size:14px;padding-right:34px">${skyMsg}</p>`);   // S4
   document.getElementById("toSky").onclick=()=>skyView();
   document.getElementById("toSrc").onclick=()=>sourcesView(mapView);
-  document.getElementById("back").onclick=menu;backBar("日本地図");
   guideMap();   // 夜空に新しい星があれば「近畿の夜空を見る」を光らせる（16_guide.js）
   window.scrollTo(0,0);
   if(fxs.length)playFx([...fxs,...treFx(d)]);
@@ -7093,9 +7142,12 @@ function bossSky(c,d){
 function bossMapMark(d,nm,x,y){
   const ch=chOfPanel(nm),b=ch&&BOSS.find(z=>z.big&&z.ch===ch);   // K2：その章のパネルに、その章の大ボスの朱印（第1章は近畿・平清盛）
   if(!b||!bossWon(d,b)||regionState(d,nm)==="lock")return "";
-  return `<g pointer-events="none" transform="translate(${x+14} ${y+1}) rotate(-8)"><rect x="-6.5" y="-6.5" width="13" height="13" rx="1.5" fill="#c0392b" stroke="#fff" stroke-width="1"/><text x="0" y="3.4" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">合</text></g>`;
+  const [ox,oy]=BOSS_SEALXY[nm]||[14,1];   // SS1（S3、相談51）：「合」をタップすると、記念の一文（地図の下の行はなくした）。北海道は名前と重ならない所へ
+  return `<g class="mpseal" data-seal="${b.id}" role="button" aria-label="${chOf(b.ch).panel}の朱印" style="cursor:pointer" transform="translate(${x+ox} ${y+oy}) rotate(-8)"><rect x="-10" y="-10" width="20" height="20" fill="transparent"/><rect x="-6.5" y="-6.5" width="13" height="13" rx="1.5" fill="#c0392b" stroke="#fff" stroke-width="1"/><text x="0" y="3.4" text-anchor="middle" font-size="9" font-weight="700" fill="#fff" pointer-events="none">合</text></g>`;
 }
-const bossMapNote=d=>BOSS.filter(b=>b.big&&bossWon(d,b)&&chList().includes(b.ch)).map(b=>`<br>${chOf(b.ch).panel}の朱印：大ボス（${b.name}）に勝った記念`).join("");
+const BOSS_SEALXY={北海道:[34,2],中部:[16,4]};   // 地方の印の場所からのずれ（ないときは右へ14・下へ1＝今までの場所）
+const bossMapLine=b=>`${chOf(b.ch).panel}の朱印：大ボス（${b.name}）に勝った記念`;
+const bossMapNote=d=>BOSS.filter(b=>b.big&&bossWon(d,b)&&chList().includes(b.ch)).map(b=>`<br>${bossMapLine(b)}`).join("");   // SS1 から地図では使っていない（前の形の道具のため残す）
 /* ===== 本能寺モード・天下人モード・誤字トラップ（B2、2026-11-15）。F2（2026-11-18）：画面の名前は「関ヶ原モード」・入り口②③・連打の罰（光秀の句・本能寺の変） ===== */
 // 関ヶ原モード（v8 の「本能寺モード」。F2 で画面の名前と演出を変えた。モード名 "HON"・記録 d.hon・関数の名前 hon○○ は変えない）：
 //  今日の復習を全部終えた人が、次の3つの入り口から挑める。1問5秒・まちがえるとHPが大きく減る・満点で経験値大。1日の回数に制限。失敗すると、今日はもう挑めない（慎重さが高いと軽くなる）。
@@ -9034,8 +9086,11 @@ function kbResultHtml(d){
   return `${bands}${say}${dnOnly.map(id=>{const c=chOf(id);return `<div class="get kbget"><div class="k">見聞をきわめた！</div><div class="v">${chFull(c.id)}</div><div class="s">この章の中身を、全部1回以上正解した</div></div>`}).join("")}${ev.map(e=>kbUpHtml(d,e,B0)).join("")}`;
 }
 // 図鑑（06_screens.js の zukan から。いちばん上の「図鑑 ○／○」のすぐ下）：章ごとの見聞と「見聞をきわめた」の印（K2 で章の見出しができたら、そこへ移す）
-function kbZukanHtml(d){kbR(d);
-  return `<div class="kbzk">${kbChs().map(c=>{const [n,t]=kbN(d,c.id),dn=d.kb.done[c.id];return `<div class="kbzr${dn?" dn":""}"><span>${chFull(c.id)}</span><span>見聞 ${n}／${t}</span>${dn?`<span class="kbseal">見聞をきわめた</span>`:""}</div>`}).join("")}</div>`}
+// SS1（S8、相談51）：o＝{open:開いている章, all:全部の章を開く（差しこみ口 HK.zkAll。確かめの道具だけが使う。ふだんは空）, n:章→カードの数, body:章→その章のカードの html}。カードのある章の行はボタンで、押すとその章のカードが行のすぐ下に開く
+function kbZukanHtml(d,o){kbR(d);
+  return `<div class="kbzk">${kbChs().map(c=>{const [n,t]=kbN(d,c.id),dn=d.kb.done[c.id],in_=`<span>${chFull(c.id)}</span><span>見聞 ${n}／${t}</span>${dn?`<span class="kbseal">見聞をきわめた</span>`:""}`;
+    if(!o||!o.n(c.id))return `<div class="kbzr${dn?" dn":""}">${in_}</div>`;
+    const op=!!o.all||o.open===c.id;return `<button type="button" class="kbzr kbzb${dn?" dn":""}${op?" on":""}" data-zch="${c.id}" aria-expanded="${op}">${in_}<span class="ssar">▶</span></button>${op?`<div class="kbzbody">${o.body(c.id)}</div>`:""}`}).join("")}</div>`}
 
 /* ===== 見聞の段と章の背景の色（G3、D19）・青い★の記録（G3、D20） ===== */
 // 見聞の段：その章の見聞の割合で進み、下がらない（記録 kb.st＝{単元ID:段}。いちばん進んだ段を残す）。段はページの背景の色（カードの外側）になる。
@@ -9579,9 +9634,9 @@ function spOpenIt(d,k){spR(d).op[k]=Date.now();if(!d.open.includes("sk:"+k))d.op
 const spDots=n=>"●".repeat(n);
 const spPaid=(d,k)=>owns(d,k)&&!!(d.sp&&d.sp.pd&&d.sp.pd[k]);   // ポイントを払って取得したスキル（徳政令が使える）
 // スキルの画面のいちばん上（スタースキルの段・説明のすぐ下）の箱
-function spBoxHtml(d){const s=spR(d),h=spHave(d),L=lvNow(d),nx=spNext(L),n=spPer();
-  return `<div class="spbox"><div class="sphd"><span>スキルポイント</span><b>${h}</b><span class="spfrw">かけら ${spFragDots(L)}</span>${s.tk?`<span class="sptk">${spTokuIcon()}徳政令 ${s.tk}</span>`:""}</div>
-   <small>レベルが1上がるたびに、かけらが1つ入る。かけら${n}つで1ポイント（次は Lv${nx}）。${chNo(advCh())}のほかの章のスキルは、開放されたあと、ポイントを払って取得する。取得は取り消せないので、よく読んで選ぼう。</small></div>`}
+function spBoxHtml(d){const s=spR(d),h=spHave(d),L=lvNow(d);
+  return `<div class="spbox"><div class="sphd"><span>スキルポイント</span><b>${h}</b><span class="spfrw">かけら ${spFragDots(L)}</span>${s.tk?`<span class="sptk">${spTokuIcon()}徳政令 ${s.tk}</span>`:""}</div></div>`}   // SS1（S7、相談51）：説明の文は、スキルの画面の「？」の箱へ（spBoxTxt）
+const spBoxTxt=d=>{const L=lvNow(d),nx=spNext(L),n=spPer();return `レベルが1上がるたびに、かけらが1つ入る。かけら${n}つで1ポイント（次は Lv${nx}）。${chNo(advCh())}のほかの章のスキルは、開放されたあと、ポイントを払って取得する。取得は取り消せないので、よく読んで選ぼう。`};
 // 開放ずみ・まだ取得していないスキル
 function spOpenHtml(d){
   const L=chList().flatMap(ch=>SK_CH[ch]||[]).filter(k=>spNeed(k)&&spOpen(d,k)&&!owns(d,k));if(!L.length)return "";
@@ -10024,9 +10079,14 @@ function skills(){
     return `<div class="skc lock" data-lk="${k}"><div><span class="nm">${v>=1?skNmCard(d,k):"？？？"}</span>${r&&r.how.t==="shop"?`<span class="ty shop">店</span>`:""}</div>
     <div class="sklk"><span>手に入れ方：</span>${v>=2?skHow(d,k):"？？？"}</div><div class="sklk"><span>効き目：</span>${v>=3?skDs(d,k,1):"？？？"}</div>${v>=3&&spNeed(k)?`<div class="sklk"><span>取得に：</span>スキルポイント<span class="spdot">${spDots(spCost(k))}</span></div>`:""}</div>`};
   const chs=[CFG.ch[0].id,...chList().filter(ch=>SK_CH[ch])].filter((v,i,a)=>a.indexOf(v)===i);
+  // SS1（S7、相談51）：まだ手に入れていないスキルは、今の章のぶんだけ開き、ほかの章は「明月の章　まだ6つ ▶」の1行にたたむ（押すと今と同じ枠が開く。開いた章は、この画面を描き直しても開いたまま）
+  const cur=chCur();
   const lockH=chs.map(ch=>{const L=(ch===CFG.ch[0].id?SK1_ORDER:SK_CH[ch]).filter(k=>!owns(d,k)&&!spOpen(d,k));
-    return L.length?`<div class="skch">${chFull(ch)}<small>${L.length}つ</small></div>${L.map(lock).join("")}`:""}).join("");
-  let h=`<div class="card"><div class="tag">スキル</div>${skStarHtml(d)}<p class="lead">スキルは、レベルや地図の星座・★3の数で増えます。枠に付けたスキルだけが効きます（いつでも付けかえられます）。付けて使い続けると、スキルが進化します。</p>${spBoxHtml(d)}
+    if(!L.length)return "";
+    if(ch===cur)return `<div class="skch">${chFull(ch)}<small>${L.length}つ</small></div>${L.map(lock).join("")}`;
+    return `<details class="ssfold skfold" data-ch="${ch}"${SK_FOLD.has(ch)?" open":""}><summary>${chNo(ch)}　まだ${L.length}つ<span class="ssar">▶</span></summary><div class="sopts">${L.map(lock).join("")}</div></details>`}).join("");
+  const lead="スキルは、レベルや地図の星座・★3の数で増えます。枠に付けたスキルだけが効きます（いつでも付けかえられます）。付けて使い続けると、スキルが進化します。";
+  let h=`<div class="card"><div class="sshd"><div class="tag">スキル</div><button type="button" class="ssq" id="skQ" aria-label="スキルの説明">？</button></div>${skStarHtml(d)}${spBoxHtml(d)}
   <div class="slots">${Array.from({length:Math.max(3,n)},(_,i)=>i<n?`<span class="${d.eq[i]?"on":""} ${d.eq[i]&&skBake(d.eq[i])&&skStage(d,d.eq[i])===3?"sknj":""}">${d.eq[i]?skNmCard(d,d.eq[i]):"空き"}</span>`:`<span class="off">枠${i+1}<br>まだ</span>`).join("")}</div>
   <div class="branch"><h3>枠に付けるスキル<small>${slotSk.length}個</small></h3><div class="sopts">${slotSk.length?slotSk.map(card).join(""):`<div class="skc secret"><div class="ds">まだありません</div></div>`}</div></div>
   ${spOpenHtml(d)}
@@ -10041,7 +10101,10 @@ function skills(){
   app.querySelectorAll("[data-eq]").forEach(b=>b.onclick=()=>{const k=b.dataset.eq,d2=load();
     if(eqd(d2,k))d2.eq=d2.eq.filter(x=>x!==k);else if(d2.eq.length<slots(d2))d2.eq.push(k);save(d2);skills()});
   document.getElementById("back").onclick=menu;backBar("スキル");
+  document.getElementById("skQ").onclick=()=>popup(`<div class="tag">スキル</div><p style="font-size:14px;margin-top:10px">${lead}</p><p style="font-size:13px;color:var(--sub);margin-top:8px">${spBoxTxt(d)}</p>`);   // SS1（S7）
+  app.querySelectorAll(".skfold").forEach(x=>x.ontoggle=()=>{x.open?SK_FOLD.add(x.dataset.ch):SK_FOLD.delete(x.dataset.ch)});
 }
+const SK_FOLD=new Set();   // SS1：たたんだ章のうち、開いた章（ページを開き直すと、また全部たたむ）
 
 /* --- 店（15 の shopView の高額の品物のあと）：店で買うスキルと、解体新書（正倉院のあと、店の隅に初めて現れる） --- */
 const SK_KAITAI={nm:"解体新書",yomi:"かいたいしんしょ",ef:"スキルのロックの中身が、すべて分かる",
@@ -11648,9 +11711,9 @@ function mgNextHtml(d){
 }
 
 /* --- ③ 地方から章へ（D28。07 の mapView から）：地方をタップすると、小さな箱で「夜空を見る」「この章に挑戦する」 --- */
-function mpAsk(nm,ch,toSky){
+function mpAsk(nm,ch,toSky,info){   // SS1（S2）：info＝その地方の数（07 の mpRegInfo）
   const el=document.createElement("div");el.className="dlg mpask";
-  el.innerHTML=`<div class="card"><b>${nm}　${chFull(ch)}</b><div class="row"><button class="btn" data-a="sky">夜空を見る</button><button class="btn ghost" data-a="ch">この章に挑戦する</button></div></div>`;
+  el.innerHTML=`<div class="card"><b>${nm}　${chFull(ch)}</b>${info?`<p class="mpinfo">${info}</p>`:""}<div class="row"><button class="btn" data-a="sky">夜空を見る</button><button class="btn ghost" data-a="ch">この章に挑戦する</button></div></div>`;
   document.body.appendChild(el);
   el.onclick=e=>{const a=e.target.closest("[data-a]");if(a){el.remove();a.dataset.a==="sky"?toSky():chGo(ch)}else if(e.target===el)el.remove()};
 }
