@@ -5738,13 +5738,13 @@ function zukan(){
   const d=load(),desc=opened(d,"f:zkdesc"),canSort=opened(d,"f:zksort");
   const cell=q=>d.cards.includes(q.id)?`<button class="zc ${effM(d,q.id)===5?"goldc":""}${maskCardCls(d,q.id)}${typeof sjCardCls==="function"?sjCardCls(d,q.id):""}" data-id="${q.id}"><span class="ic">${q.s==="C"?"👤":"📜"}</span>${q.a}<small>${YOMI[q.a]||""}</small></button>`:`<div class="zc lock">？</div>`;
   const grid=list=>`<div class="zgrid">${list.map(cell).join("")}</div>`;
-  // SS1（S8、相談51）：章の行を押すと、その章のカードが開く。開いた章も、手に入れたカードと「まだ ○枚 ▶」の1行だけ（押すと今と同じ「？」の枠）
+  // SS1（S8、相談51）：章の行を押すと、その章のカードが開く。開いた章も、手に入れたカードと「まだ手に入れていないカード　○枚 ▶」の1行だけ（押すと今と同じ「？」の枠。言い方は U43〈v67〉）
   const chC=ch=>CARDQ.filter(q=>q.ch===ch);
   if(zkCh===undefined)zkCh=chC(chCur()).length?chCur():null;
   const body=ch=>{const C=chC(ch),own=C.filter(q=>d.cards.includes(q.id)),rest=C.filter(q=>!d.cards.includes(q.id));
     const b=canSort&&zkSort==="era"?ERAS.filter(e=>own.some(q=>q.era===e)).map(e=>`<div class="zh">${eraName(e)}</div>${grid(own.filter(q=>q.era===e))}`).join("")
       :[["A","語句"],["C","人物"]].filter(([s])=>own.some(q=>q.s===s)).map(([s,nm])=>`<div class="zh">${nm}</div>${grid(own.filter(q=>q.s===s))}`).join("");
-    return b+(rest.length?`<details class="ssfold zkfold"><summary>まだ${rest.length}枚<span class="ssar">▶</span></summary>${grid(rest)}</details>`:"")};
+    return b+(rest.length?`<details class="ssfold zkfold"><summary><span>まだ手に入れていないカード　<span style="white-space:nowrap">${rest.length}枚</span></span><span class="ssar">▶</span></summary>${grid(rest)}</details>`:"")};
   app.innerHTML=`<div class="card"><div class="tag">図鑑　${d.cards.length} / ${CARDQ.length}</div>${typeof sjZukanHtml==="function"?sjZukanHtml(d):""}
   <p class="lead">同じ問題に、日をあけて何回か正解すると（★3）、カードが手に入ります。★5のカードは金色に光ります。</p>
   ${canSort?`<div class="seg"><button data-s="kind" class="${zkSort==="kind"?"on":""}">種類順</button><button data-s="era" class="${zkSort==="era"?"on":""}">時代順</button></div>`:""}
@@ -10079,12 +10079,12 @@ function skills(){
     return `<div class="skc lock" data-lk="${k}"><div><span class="nm">${v>=1?skNmCard(d,k):"？？？"}</span>${r&&r.how.t==="shop"?`<span class="ty shop">店</span>`:""}</div>
     <div class="sklk"><span>手に入れ方：</span>${v>=2?skHow(d,k):"？？？"}</div><div class="sklk"><span>効き目：</span>${v>=3?skDs(d,k,1):"？？？"}</div>${v>=3&&spNeed(k)?`<div class="sklk"><span>取得に：</span>スキルポイント<span class="spdot">${spDots(spCost(k))}</span></div>`:""}</div>`};
   const chs=[CFG.ch[0].id,...chList().filter(ch=>SK_CH[ch])].filter((v,i,a)=>a.indexOf(v)===i);
-  // SS1（S7、相談51）：まだ手に入れていないスキルは、今の章のぶんだけ開き、ほかの章は「明月の章　まだ6つ ▶」の1行にたたむ（押すと今と同じ枠が開く。開いた章は、この画面を描き直しても開いたまま）
+  // SS1（S7、相談51）：まだ手に入れていないスキルは、今の章のぶんだけ開き、ほかの章は「明月の章　手に入れていないスキル　6つ ▶」の1行にたたむ（押すと今と同じ枠が開く。開いた章は、この画面を描き直しても開いたまま。言い方は U43〈v67〉）
   const cur=chCur();
   const lockH=chs.map(ch=>{const L=(ch===CFG.ch[0].id?SK1_ORDER:SK_CH[ch]).filter(k=>!owns(d,k)&&!spOpen(d,k));
     if(!L.length)return "";
     if(ch===cur)return `<div class="skch">${chFull(ch)}<small>${L.length}つ</small></div>${L.map(lock).join("")}`;
-    return `<details class="ssfold skfold" data-ch="${ch}"${SK_FOLD.has(ch)?" open":""}><summary>${chNo(ch)}　まだ${L.length}つ<span class="ssar">▶</span></summary><div class="sopts">${L.map(lock).join("")}</div></details>`}).join("");
+    return `<details class="ssfold skfold" data-ch="${ch}"${SK_FOLD.has(ch)?" open":""}><summary><span><span style="white-space:nowrap">${chNo(ch)}</span>　<span style="white-space:nowrap">手に入れていないスキル　${L.length}つ</span></span><span class="ssar">▶</span></summary><div class="sopts">${L.map(lock).join("")}</div></details>`}).join("");
   const lead="スキルは、レベルや地図の星座・★3の数で増えます。枠に付けたスキルだけが効きます（いつでも付けかえられます）。付けて使い続けると、スキルが進化します。";
   let h=`<div class="card"><div class="sshd"><div class="tag">スキル</div><button type="button" class="ssq" id="skQ" aria-label="スキルの説明">？</button></div>${skStarHtml(d)}${spBoxHtml(d)}
   <div class="slots">${Array.from({length:Math.max(3,n)},(_,i)=>i<n?`<span class="${d.eq[i]?"on":""} ${d.eq[i]&&skBake(d.eq[i])&&skStage(d,d.eq[i])===3?"sknj":""}">${d.eq[i]?skNmCard(d,d.eq[i]):"空き"}</span>`:`<span class="off">枠${i+1}<br>まだ</span>`).join("")}</div>
