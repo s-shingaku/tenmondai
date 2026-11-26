@@ -2339,6 +2339,55 @@ html.hsdk .hsmoon:not(.low) .mosv .mol{animation:moGlow 4s ease-in-out infinite 
 .choices.tkn{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .choices.tkn .ch{justify-content:center;text-align:center;font-size:20px;font-weight:700;min-height:52px;flex-direction:column;align-items:center}
 .choices.tkn .ch .why{display:block;font-size:12px;font-weight:400;margin-top:2px}
+/* ===== 年号120（NEN1、相談52）：［セットで覚える］の枠・数字のパネル（電卓の並び）・ゴロ・タイムアタック・称号の印（ホームの見出し・枠・演出） ===== */
+.nencard .nenhd{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin:2px 0 6px}
+.nencard .nenhd b{font-size:17px}
+.nencard .nenhd small{font-size:12px;color:var(--sub);flex:1;min-width:10em}
+.nencard .nenhd .nenmark{align-self:center}
+.nenrow{display:flex;align-items:center;gap:6px;padding:6px 0;border-top:1px dashed var(--line)}
+.nenrow>b{flex:0 0 4.4em;font-size:14px;line-height:1.2}
+.nenrow>b small{display:block;font-size:10px;font-weight:400;color:var(--sub)}
+.nenrow.nenlk{color:var(--sub)}
+.nenrow.nenlk small{font-size:12px}
+.nenbtns{flex:1;min-width:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+.nenb{min-height:40px;padding:2px 0;font-size:12px;white-space:nowrap;border:1.5px solid var(--ink);border-radius:8px;background:#fff;color:var(--ink);cursor:pointer;line-height:1.15}
+.nenb{position:relative;overflow:visible}
+.nenb.done{background:#eef6ea;border-color:#5a8f4e;color:#3d6b33}
+.nenb.done::after{content:"✓";position:absolute;right:-4px;top:-7px;width:16px;height:16px;border-radius:50%;background:#5a8f4e;color:#fff;font-size:10px;line-height:16px;text-align:center}
+.nenb:disabled{opacity:.4;cursor:default}
+.nenxs{display:grid;gap:6px;margin-top:8px}
+.nenx{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:8px 12px;border:1.5px solid var(--ink);border-radius:10px;background:#fffdf6;text-align:left;cursor:pointer}
+.nenx b{font-size:15px}.nenx small{font-size:12px;color:var(--sub)}
+.nenx.niji{border-image:linear-gradient(90deg,#ff6b6b,#ffd93d,#6bcb77,#4d96ff,#c77dff) 1;border-width:2px}
+.nenq small{font-size:.72em;color:var(--sub)}
+.nenpad{display:grid;grid-template-columns:repeat(3,minmax(64px,84px));justify-content:center;gap:8px;margin:4px auto 12px}
+.nenpad button{min-height:52px;font-size:24px;font-weight:700}
+.nenpad .tlb{font-size:18px}
+.nengoro{margin:6px 0;padding:6px 10px;border-radius:8px;background:#fff6dc;color:var(--ink);font-size:14px;line-height:1.5}
+.nengoro b{display:inline-block;margin-right:8px;font-size:11px;color:#9a6a00;border:1px solid #d9a300;border-radius:4px;padding:0 4px}
+.nenta{text-align:center;font-weight:700;font-size:18px;margin:4px 0}
+.nenta.ng{color:var(--ng,#c0392b)}
+.nentam{font-size:13px;color:var(--sub)}
+/* 称号の印（字なし・止まった形。下ほど小さく地味に、上ほど大きく豪華に） */
+.nenmark{display:inline-block;border-radius:50%;flex:none;vertical-align:middle;position:relative}
+.nenmark.nm_dou{width:16px;height:16px;background:radial-gradient(circle at 35% 35%,#e9a46a,#a5592a 70%);box-shadow:inset 0 0 0 1.5px #7a3e18}
+.nenmark.nm_gin{width:20px;height:20px;background:radial-gradient(circle at 35% 35%,#fff,#b9c2cc 65%,#8a949e);box-shadow:0 0 0 1.5px #fff,0 0 4px #fff}
+.nenmark.nm_kin{width:24px;height:24px;background:radial-gradient(circle at 35% 35%,#fff6c8,#e8b923 55%,#a87908);box-shadow:inset 0 0 0 2px #c9940c,0 0 0 1.5px #f5d76e}
+.nenmark.nm_kin::after{content:"✦";position:absolute;right:-7px;top:-8px;font-size:10px;color:#f5c400}
+.nenmark.nm_niji{width:28px;height:28px;background:conic-gradient(#ff6b6b,#ffd93d,#6bcb77,#4d96ff,#c77dff,#ff6b6b)}
+.nenmark.nm_niji::before{content:"";position:absolute;left:3.5px;top:3.5px;width:21px;height:21px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff6c8,#e8b923 55%,#a87908)}
+header .nenbadge{flex:none;margin:-8px 2px -8px 8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+body:not(.hmhome) header .nenbadge{display:none}
+header .nenbadge.glow .nenmark{animation:nenGlow 1.6s ease-out 1}
+@keyframes nenGlow{0%{filter:brightness(1)}40%{filter:brightness(1.8) drop-shadow(0 0 8px #ffe680)}100%{filter:brightness(1)}}
+.lowfx header .nenbadge .nenmark{animation:none}
+.nenpop{display:flex;align-items:center;gap:12px;padding:6px 0}
+.nenpop b{font-size:18px}.nenpop small{display:block;font-size:12px;color:var(--sub);margin-top:2px}
+.nenfx .nenfxin{text-align:center}
+.nenfx .nenbig{display:flex;align-items:center;justify-content:center;gap:10px;font-size:24px;font-weight:700;margin:8px 0}
+.nenfx .nentale{text-align:left;margin-top:10px}
+.nenres .s{font-size:12px}
+.score:has(.nentaM) .msg+.time{display:none}   /* タイムアタックの結果は、上の「タイム ○秒」だけにする */
 </style>
 </head>
 <body>
@@ -14105,6 +14154,346 @@ function tkThJudge(it){
   return _k(d,it,ok,ids,downIds)}}
 // 初見の説明（33）：数字タイルには「文字タイル」の説明を出さない（文字タイルの説明の文は漢字のパネルの話のため。数字タイルの画面の指示の1行で足りる）
 {const _n=shkNeed;shkNeed=function(key,d){if(key==="tile"&&st&&st.set&&st.set[st.idx]&&st.set[st.idx].ntile)return false;return _n(key,d)}}
+/* ===== 年号120（NEN1、2026-11-27。相談52＝「claude/アイデア/年号120_案.md」・一覧＝「claude/問題/年号120_一覧_案.md」〈副塾長 2026-11-27 01:56「おすすめで」〉） =====
+   塾内版だけの部品（全国版には入れない＝この部品と nen.css を組み立てに入れなければ、ほかは何も変わらない）。北極星の章 H7 の［セットで覚える］のいちばん下「もう一歩　Step1 の外」の枠に「年号120」。
+   問題は塾の《歴史年号①〜③》の120（NEN_R＝[番号, 年, 札, ゴロ, 解説, Step1 のＣの id]。正本は tools/nen1/nendata.py）。どの段も札を出し、年を数字のパネル（電卓の並び）で答える。
+   Ｃと重なる34問は Step1 のＣと同じ id（★・まちがい・今日の復習を分けない。年号120 の枠では札で出す）。残り86問は id H7_NG<一覧の上からの番号>（Step1 の外。QBY・ALLIDS にだけ入る＝対の語と同じ扱い。見聞・時代別の正答率には入れない）。
+   段：初級（番号順）・中級・上級・超級（シャッフル）を5回ずつ。まちがえてよい数は CFG.nen.miss（ハート＝その数＋1）。超級は1問 CFG.nen.gold 秒×問題数以内。2回目からのクリアに経験値は出さない（1問ごとの経験値も出さない）。
+   タイムアタック（中級を全部クリア）：CFG.nen.taN 問・まちがいは＋CFG.nen.pen 秒・★を動かさない。虹の挑戦（金の称号から）：120問・満点・CFG.nen.niji 秒以内。
+   称号4つ（中級・上級・超級・虹の挑戦）とごほうびの銭（15 の wdUpAll を包む）・ホームの印（見出しの行の右）・こよみの小話（26 の kkTalesHtml を包む）。記録 d.nen（書くときだけ作る）。マスター版は HK.nenLog で1問ごとの秒数を残す。
+   ほかの部品は直さず、関数を包む（start・twinSep・tilePick・honGate・wdAsk・renSettle・settle・kbSettle・GEN.FORGET・tileHtml・tileBind・show・shkNeed・finish・afterAnswer・jinResult・wdUpAll・wdUpWhy・setsView・menu・kkTalesHtml）。 */
+const NEN_R=[
+["①-1", 57, "倭の奴国王、後漢の光武帝より金印を授かる", "こんな金印欲しかったわ（倭）", "奴国（なこく）は今の福岡市のあたりにあった小さな国。金印は江戸時代に志賀島で見つかった。", ""],
+["①-2", 239, "邪馬台国の卑弥呼、魏に使者を送る", "文くださいね、卑弥呼より", "卑弥呼は「親魏倭王」の称号と金印を授かった。", "C1"],
+["①-4", 538, "仏教が百済から伝来", "百済の仏に御参拝", "百済の聖明王が仏像や経典を送った。552年とする説（『日本書紀』）もあるが、538年が有力。", ""],
+["①-5", 593, "聖徳太子、摂政になる", "国民歓迎、太子の摂政", "おばの推古天皇を助けて政治を行った。", ""],
+["①-6", 607, "小野妹子、第一回遣隋使", "群れなして渡る遣隋使", "隋の進んだ制度や文化を学ぶために送った。", "C2"],
+["①-7", 630, "犬上御田鍬、第一回遣唐使", "蒸されて渡る遣唐使", "隋のあとにできた唐へ送った最初の使い。犬上御田鍬（いぬがみのみたすき）は遣隋使にも加わった。", ""],
+["①-8", 645, "大化の改新（中大兄皇子・中臣鎌足vs蘇我氏親子）", "蘇我虫殺す大化の改新", "蘇我蝦夷・入鹿の親子をたおし、天皇中心の国づくりを始めた。", "C3"],
+["①-9", 663, "白村江の戦い（日本vs新羅・唐）", "ムームー見に行く白村江", "百済を助けようとして朝鮮半島に兵を送り、唐と新羅の連合軍に敗れた。", ""],
+["①-10", 672, "壬申の乱（大海人皇子vs大友皇子）", "無理な分裂、壬申の乱", "天智天皇のあとつぎ争い。勝った大海人皇子が天武天皇になった。", ""],
+["①-11", 701, "大宝律令", "唐まねた、大宝律令慣れ一つ", "唐の法律にならって、国を治めるきまりをつくった。", "C4"],
+["①-12", 710, "元明天皇、平城京に遷都", "なんと見事な平城京", "奈良時代の始まり。都は唐の長安にならってつくられた。", "C5"],
+["①-13", 723, "三世一身の法", "なにさ結局国のもの", "新しく開いた田は、3代のあいだ自分のものにしてよいとした。", ""],
+["①-14", 743, "墾田永年私財法", "口分田、もうとられる心配なしさ", "新しく開いた田を、いつまでも自分のものにしてよいとした。荘園が生まれるもとになった。", ""],
+["①-15", 794, "桓武天皇、平安京に遷都", "鳴くよウグイス平安京", "平安時代の始まり。都は今の京都市。", "C6"],
+["①-16", 797, "坂上田村麻呂、征夷大将軍になる", "東北に、泣く泣く出かける田村麻呂", "東北地方の蝦夷（えみし）を従わせるために送られた。", ""],
+["①-17", 894, "菅原道真の進言、遣唐使廃止", "白紙に戻そう遣唐使", "唐がおとろえ、海をわたる危険も大きいので、派遣をやめた。このあと国風文化が育った。", ""],
+["①-18", 935, "平将門の乱", "組み込む大軍新皇将門", "935年に一族の争いから始まり、939年に国の役所をおそって反乱になった。", ""],
+["①-19", 1016, "藤原道長、摂政になる", "遠い昔の摂政道長", "むすめを天皇のきさきにして大きな力をふるった。", ""],
+["①-20", 1086, "白河上皇の院政", "入れ歯6本、白河上皇", "天皇の位をゆずったあとも、上皇として政治を動かした。", ""],
+["①-21", 1156, "保元の乱（上皇vs天皇）", "いいころ起こった保元の乱", "崇徳上皇と後白河天皇の争い。武士の力で決着した。", ""],
+["①-22", 1159, "平治の乱（平清盛vs源義朝）", "人々御苦労、平治の乱", "勝った平清盛が大きな力をもつようになった。", "C7"],
+["①-23", 1167, "平清盛、太政大臣になる", "大丈夫、平清盛いい胸毛", "武士として初めて太政大臣になった。", "C8"],
+["①-24", 1185, "壇ノ浦の戦いで平氏滅亡", "平氏「助けて！」源氏「いいや殺す！」", "壇ノ浦は今の山口県下関市。", ""],
+["①-25", 1192, "源頼朝、征夷大将軍になる（鎌倉幕府を開く）", "いい国作ろう、鎌倉幕府", "塾では、頼朝が征夷大将軍になった1192年で覚える（1185年は平氏がほろんだ年）。", "C9"],
+["①-26", 1221, "承久の乱（後鳥羽上皇）", "人に不意打ち、承久の乱", "後鳥羽上皇が幕府をたおそうとして敗れた。北条政子が御家人に団結をうったえた。", "C10"],
+["①-27", 1232, "御成敗式目（北条泰時）", "一日三人御成敗", "武士の裁判の基準を定めた、最初の武士の法律。", "C11"],
+["①-28", 1274, "文永の役（第一回元寇）", "元の船とうになし", "1度目の元寇。2度目は1281年の弘安の役。", "C12"],
+["①-29", 1281, "弘安の役（第二回元寇）", "人には言えない負けいくさ", "2度目の元寇。御家人は石塁（元寇防塁）を築いて備えた。", ""],
+["①-30", 1297, "永仁の徳政令", "皮肉な徳政、御家人救う", "生活に苦しむ御家人の借金を帳消しにした。", ""],
+["①-31", 1333, "鎌倉幕府の滅亡", "北条の一味散々、幕府滅亡", "後醍醐天皇の呼びかけに足利尊氏・新田義貞らが応じた。", ""],
+["①-32", 1334, "建武の新政（後醍醐天皇）", "人散々死んで建武の新政", "天皇中心の政治をめざしたが、2年ほどでくずれた。", ""],
+["①-33", 1338, "足利尊氏、征夷大将軍になる（室町幕府を開く）", "瞳さわやか足利尊氏", "1333年は鎌倉幕府がほろびた年。", "C13"],
+["①-34", 1392, "足利義満、南北朝統一", "いざ国まとめて南北朝", "約60年続いた南朝と北朝を1つにした。", ""],
+["①-35", 1404, "足利義満、明と勘合貿易", "年教えてよ、看護婦さん", "勘合という合い札で、正式な貿易船と倭寇を見分けた。", "C14"],
+["①-36", 1428, "正長の土一揆", "いいよ、庭で土遊び", "近江の馬借（ばしゃく）から始まり、借金の帳消しを求めた。", ""],
+["①-37", 1467, "応仁の乱が始まる", "人の世むなしい応仁の乱", "将軍のあとつぎ争いなどから起こり、約11年続いた。", "C15"],
+["①-38", 1485, "山城の国一揆", "山城君、いいよ、ハチ公前ならば", "武士と農民が守護大名の畠山氏を追い出し、8年間自分たちで治めた。", ""],
+["①-39", 1488, "加賀の一向一揆", "いいよパパ、加賀でいっこうOKさ", "一向宗（浄土真宗）の信者たちが守護をたおし、約100年治めた。", ""],
+["①-40", 1543, "種子島に鉄砲伝来", "以後予算増える鉄砲伝来", "ポルトガル人を乗せた船が種子島に流れ着いた。", "C16"],
+["①-41", 1549, "キリスト教伝来", "以後良く広まるキリスト教", "ザビエルが鹿児島に来て伝えた。", "C17"],
+["①-42", 1560, "桶狭間の戦い（織田信長vs今川義元）", "1時頃おそっちゃえ、桶狭間", "少ない兵で今川義元の大軍を破った。", ""],
+["①-42の次", 1571, "織田信長、比叡山延暦寺を焼き討ち", "ヒエーッ、以後ない延暦寺", "延暦寺が、信長と戦う浅井・朝倉の軍をかくまったため、山の寺々を焼きはらった。", ""],
+["①-43", 1573, "織田信長、足利義昭追放（室町幕府滅亡）", "ひとこと涙で室町滅亡", "15代将軍の足利義昭を京都から追い出した。", ""],
+["①-44", 1575, "長篠の戦い（織田信長vs武田勝頼）", "人々こなごな長篠で", "鉄砲を大量に使って、武田氏の騎馬隊を破った。", ""],
+["①-45", 1582, "本能寺の変（織田信長vs明智光秀）", "光秀びっくり、イチゴパンツ", "同じ1582年に、豊臣秀吉が太閤検地を始めた。", ""],
+["①-46", 1582, "太閤検地", "秀吉は、イチゴパンツで検地する", "田畑の広さやよしあしを調べ、石高で表した。", ""],
+["①-47", 1585, "豊臣秀吉、関白になる", "関白秀吉イチゴは御免", "武士で初めて関白になった。", ""],
+["①-48", 1586, "豊臣秀吉、太政大臣になる", "翌年だったら大丈夫", "関白になった翌年。この年に「豊臣」の姓ももらった。", ""],
+["①-49", 1588, "刀狩（豊臣秀吉）", "以後刃はだめよと刀狩", "百姓から刀や鉄砲などの武器を取り上げ、一揆を防いだ。", "C18"],
+["①-50", 1590, "豊臣秀吉、全国統一", "統一祝いにイチゴ食おう", "小田原の北条氏をほろぼして、全国を統一した。", ""],
+["②-1", 1592, "文禄の役が始まる（豊臣秀吉第一回朝鮮出兵）", "異国に行ったら（②-2 とつなげて「異国に行ったらイチゴ食うな」）", "1度目の朝鮮出兵。2度目は1597年の慶長の役。", ""],
+["②-2", 1597, "慶長の役が始まる（豊臣秀吉第二回朝鮮出兵）", "イチゴ食うな", "2度目の朝鮮出兵。翌年、秀吉の死で兵を引き上げた。", ""],
+["②-3", 1600, "関ヶ原の戦い", "家康は一路雄々しく関ヶ原", "徳川家康が石田三成らを破り、天下の実権をにぎった。", ""],
+["②-4", 1603, "徳川家康、征夷大将軍になる（江戸幕府を開く）", "ヒーローおっさん徳川家康", "江戸時代の始まり。1600年は関ヶ原の戦い。", "C19"],
+["②-5", 1615, "武家諸法度", "広い御殿で武家諸法度", "大名を取りしまるきまり。初めて出されたのは1615年。", "C20"],
+["②-6", 1635, "参勤交代（3代徳川家光）", "参勤交代ヒロミGO!", "家光が武家諸法度に加えて、制度として定めた。", "C21"],
+["②-7", 1637, "島原・天草一揆が始まる（天草四郎）", "人無惨なり島原の乱", "重い年貢とキリスト教の取りしまりに苦しんだ人々が起こした。", "C22"],
+["②-8", 1639, "鎖国の完成（徳川家光）", "鎖国の完成、広い柵", "ポルトガル船が来るのを禁止した。", ""],
+["②-9", 1641, "オランダ商館を平戸より出島に移す", "出島のオランダ、顔色よい", "出島は長崎の港につくられた扇形の島。", ""],
+["②-10", 1649, "慶安の御触書が出されたとされる（徳川家光）", "農民の、イチロー良く聞け、御触書", "農民のくらしを細かく定めたとされる。幕府が出したものかどうかは、研究で疑問視されている。", ""],
+["②-11", 1687, "生類憐みの令（5代徳川綱吉）", "伺うは、犬の顔色、やなこった！", "生き物の殺生を禁じる法令のまとまり。1685年ごろから何度も出された。塾では1687年で覚える。", ""],
+["②-12", 1716, "享保の改革（8代徳川吉宗）", "吉宗に、非難いろいろ享保の改革", "目安箱を置き、公事方御定書をつくった。", ""],
+["②-13", 1772, "田沼意次、老中になる", "いきなりなーに？田沼さん（ワイロ？）", "商人の力を使って幕府の収入を増やそうとした。", ""],
+["②-14", 1787, "寛政の改革（松平定信）", "非難はなしよと松平", "ききんに備えて米をたくわえさせ、倹約を命じた。", ""],
+["②-15", 1792, "ラクスマン（ロシア）、根室に来航", "いきなり急にラクスマン", "漂流民の大黒屋光太夫を送り届け、通商を求めた。", ""],
+["②-16", 1804, "レザノフ（ロシア）、長崎に来航", "レザノフ長崎祝おうよ", "ラクスマンが受け取った長崎入港の許可証を持って来たが、幕府は通商を断った。", ""],
+["②-17", 1825, "異国船打払令", "いやに豪気な打ち払い令", "日本に近づく外国船を、砲撃して追い払うよう命じた。", ""],
+["②-18", 1837, "大塩平八郎の乱", "嫌味な幕府に塩まいた", "元役人の大塩平八郎が、ききんに苦しむ人々を救おうと大阪で起こした。", "C23"],
+["②-19", 1839, "蛮社の獄", "高い山、バンバン捕らえていやーサンキュー！", "幕府の外国船への対応を批判した渡辺崋山・高野長英らを処罰した。", ""],
+["②-20", 1841, "天保の改革（水野忠邦）", "忠邦も、改革はじめはよいテンポ", "倹約令を出し、株仲間を解散させた。", ""],
+["②-21", 1853, "黒船ペリー浦賀に来航", "浦賀にペリー、人は混み", "アメリカのペリーが開国を求めた。翌年、日米和親条約を結んだ。", "C24"],
+["②-22", 1854, "日米和親条約", "一夜越しです、和親条約", "下田と函館の2つの港を開いた。", ""],
+["②-23", 1858, "日米修好通商条約", "不平等、一番怖いハリスさん", "大老の井伊直弼が結んだ。領事裁判権を認め、関税自主権がない不平等条約。", "C25"],
+["②-24", 1858, "安政の大獄が始まる", "松陰をいじめる直弼一番怖い", "井伊直弼が反対派を処罰した（1859年まで）。吉田松陰も処刑された。", ""],
+["②-25", 1860, "桜田門外の変", "「井伊！ハロオー！」（いきなりグサッ）", "大老の井伊直弼が、江戸城の桜田門の外で暗殺された。", ""],
+["②-26", 1863, "薩英戦争", "いや無惨だな薩英戦争", "生麦事件をきっかけに、イギリスの艦隊が鹿児島を砲撃した。", ""],
+["②-27", 1866, "薩長同盟", "一晩ロクロク寝ないで結ぶ", "坂本龍馬らの仲立ちで、薩摩藩と長州藩が手を結んだ。", ""],
+["②-28", 1867, "大政奉還（15代徳川慶喜）", "徳川の一派むなしく大政奉還", "政権を朝廷に返した。", ""],
+["②-29", 1868, "五箇条の御誓文", "五箇条で、一つやろうや御誓文", "明治天皇が神々にちかう形で、新しい政治の方針を示した。", "C26"],
+["②-30", 1868, "戊辰戦争が始まる", "勝てば官軍いばろうや", "鳥羽・伏見の戦いから始まり、1869年の五稜郭の戦いで終わった。", ""],
+["②-31", 1869, "版籍奉還", "版籍返せば一派ムクれる", "大名が、土地（版）と人民（籍）を天皇に返した。", ""],
+["②-32", 1871, "廃藩置県", "藩とは言わない県という", "藩を廃止して県を置き、政府が任命した役人に治めさせた。", "C27"],
+["②-33", 1872, "学制発布", "学制で、教育受けろと言い放つ", "6才以上の子どもが小学校に通うよう定めた。", ""],
+["②-34", 1873, "徴兵令・地租改正", "人は涙で徴兵令（地租改正）", "徴兵令＝20才以上の男子に兵役。地租改正＝地価の3％を現金で納めさせた。", ""],
+["②-35", 1874, "民撰議院設立建白書を提出（板垣退助）", "イヤな世直せ！イヤな世直せ！", "国会を開くよう求めた。自由民権運動の始まり。", ""],
+["②-36", 1877, "西南戦争（西郷隆盛）", "隆盛が、火花ながめる西南戦争", "西郷隆盛と鹿児島の士族が起こした、士族の反乱で最後で最大のもの。", ""],
+["②-37", 1885, "内閣制度発足", "批判はご無用内閣制度", "伊藤博文が初代の内閣総理大臣になった。", ""],
+["②-38", 1889, "大日本帝国憲法発布", "いち早く憲法決めた伊藤博文（黒田清隆）", "天皇が国民にあたえる形で発布された。そのときの首相は黒田清隆。", ""],
+["②-39", 1890, "第一回帝国議会開かれる", "日は暮れて、帝国議会まだ続く", "衆議院と貴族院の二院制。", ""],
+["②-40", 1894, "治外法権をなくす条約を結ぶ（陸奥宗光）＆日清戦争が始まる", "オムツまちがい、日清ラーメン一杯食うよ", "陸奥宗光がイギリスと結んだ条約で、治外法権（領事裁判権）がなくなることが決まった（実際になくなったのは1899年）。同じ年に日清戦争が始まった。", "C28"],
+["②-41", 1901, "八幡製鉄所が操業を始める", "八幡には日暮れ一番灯がともる", "日清戦争の賠償金をもとに建てられた官営の製鉄所。", ""],
+["②-42", 1902, "日英同盟", "遠くをにらんで日英同盟", "ロシアの南下に備えて、イギリスと結んだ。", "C29"],
+["②-43", 1904, "日露戦争が始まる", "一苦労した日露戦争", "翌年のポーツマス条約で終わったが、賠償金は取れなかった。", ""],
+["②-44", 1910, "韓国併合", "行くぞとうとう韓国へ", "日本が韓国を植民地にした。", ""],
+["②-45", 1911, "小村寿太郎、米国より関税自主権を回復", "低い位置から自主権回復", "これで不平等条約の改正が終わった。", "C30"],
+["②-46", 1914, "第一次世界大戦が始まる", "行く人死んだ第一次大戦", "1918年まで続いた。日本は日英同盟を理由に参戦した。", "C31"],
+["②-47", 1915, "（対華）21カ条の要求", "中国に低い声で要求だ", "中国にあるドイツの権益を日本にゆずるよう求めた。", ""],
+["②-48", 1917, "ロシア革命（レーニン）", "ロシア革命得意なレーニン", "世界で初めての社会主義の政府ができた。", ""],
+["②-49", 1918, "米騒動→原敬の政党内閣", "米取りに行く人は原敬", "米の値上がりで全国に騒動が広がり、そのあと原敬が本格的な政党内閣をつくった。", ""],
+["②-50", 1919, "ベルサイユ条約締結", "ドイツ行く行くベルサイユ", "第一次世界大戦の講和条約。", ""],
+["③-1", 1920, "国際連盟成立", "ウィルソン、連盟作っていくつ丸？", "アメリカのウィルソン大統領が提案したが、アメリカは加わらなかった。日本は常任理事国になった。", ""],
+["③-2", 1923, "関東大震災", "犠牲者探しに行く兄さん", "9月1日に起こった。この日は今「防災の日」。", "C32"],
+["③-3", 1925, "普通選挙法＆治安維持法", "治安良し、行くぞニコニコ普通選挙", "25才以上のすべての男子に選挙権。同じ年に治安維持法もつくられた。", ""],
+["③-4", 1929, "世界恐慌", "不景気がひどくふくらむ世界恐慌", "ニューヨークの株価の大暴落から始まった。", ""],
+["③-5", 1931, "満州事変", "満州に行く際は気を付けて（ドッカーン！）", "南満州鉄道の線路の爆破をきっかけに、日本軍が満州を占領した。", ""],
+["③-6", 1932, "五・一五事件", "いくさになるね、五・一五事件", "海軍の青年将校らが犬養毅首相を暗殺した。", ""],
+["③-7", 1933, "日本、国際連盟から脱退", "一休さん残念がるぞ、国際連盟脱退", "満州国を認めない決定に反発した。", "C33"],
+["③-8", 1936, "二・二六事件", "ひどく寒い日二・二六", "陸軍の青年将校らが大臣などをおそい、東京の中心部を占拠した。", ""],
+["③-9", 1937, "日中戦争が始まる", "いくさ長引く盧溝橋", "北京郊外の盧溝橋事件から始まった。", ""],
+["③-10", 1939, "第二次世界大戦が始まる", "いくさ苦しい第二次大戦", "ドイツがポーランドにせめこんで始まった。", ""],
+["③-11", 1941, "太平洋戦争が始まる（真珠湾奇襲）", "行くよいっきに真珠湾", "日本軍がハワイの真珠湾などを攻撃して始まった。", ""],
+["③-12", 1945, "ポツダム宣言受諾（終戦の日）", "日本はひどく汚れて受諾する", "8月14日に受け入れを決め、8月15日に天皇がラジオで国民に知らせた。", "C34"],
+["③-13", 1946, "日本国憲法公布", "新憲法示すぞ日本の行く進路", "11月3日に公布、翌年5月3日に施行。", ""],
+["③-14", 1947, "教育基本法制定", "共学で、人目引くよなオシャレする", "義務教育が9年になった。", ""],
+["③-15", 1950, "朝鮮戦争が始まる", "朝鮮に行く号令出したのさ", "この戦争で、日本は特需景気になった。", ""],
+["③-16", 1951, "サンフランシスコ平和条約を結ぶ", "シスコに行くぞ、合意しに", "吉田茂が調印し、翌年に日本は独立を回復した。同じ日に日米安全保障条約も結んだ。", ""],
+["③-17", 1956, "日本、国際連合加盟", "国際連合行く頃だ", "日ソ共同宣言でソ連との国交が回復し、加盟が実現した。", ""],
+["③-18", 1972, "日中共同声明", "中国で行く夏惜しむ角栄さん", "田中角栄首相が中国を訪れ、国交を正常化した。", ""],
+["③-19", 1973, "石油ショック", "アラブから、行く波来る波石油ショック", "中東の戦争で石油の値段が大きく上がり、高度経済成長が終わった。", ""],
+["③-20", 1978, "日中平和友好条約", "ビッグなパンダ、日中平和", "1972年の日中共同声明をうけて結ばれた。", ""]
+];
+if(!CFG.nen)CFG.nen={gold:4,niji:270,pen:5,taN:20,miss:[3,3,2,1],auto:1,per:25};
+const NEN_ST=["初級","中級","上級","超級"];
+const NEN_TT={dou:["年号の暦生","れきしょう"],gin:["年号の暦博士","れきはかせ"],kin:["年号の天文博士","てんもんはかせ"],niji:["年号の陰陽頭","おんようのかみ"]};
+const NEN_TK=["dou","gin","kin","niji"];
+const NEN_UP={dou:"gin",gin:"gin",kin:"kin",niji:"niji"};   // 称号のごほうび（銭の段。D6）
+const NEN_TALE={
+ kin:"天文博士、おめでとう！ むかしの天文博士は、空にめずらしい光を見つけると、すぐ天皇に知らせたんだって。……じつはね、ふみの星図のすみに『金のその先に、虹の光あり』って書きこみがあるの。どうしたら見られるのかは、わたしにも分からないんだ。",
+ niji:"虹の印、おめでとう！ 120の年が、ひとつの空に全部ならんだね。陰陽寮のかしらの陰陽頭は、天文も暦も時刻も、ぜんぶを見わたす役目だったんだって。今夜のきみは、まさにそれだよ。"};
+/* --- 問題：Step1 のＣと重なる34問は同じ id（★を分けない）。残り86問は H7_NG<番号>（Step1 の外。QBY・ALLIDS にだけ入れる） --- */
+const NEN=[],NENBY={};
+if(chHas("H7","q")){
+  NEN_R.forEach(([lab,y,card,goro,note,cid],i)=>{
+    let base=cid?QBY[chPre("H7")+cid]:null;
+    // 34問は Step1 のＣと同じ年のときだけ同じ id にする（Ｃの問題を直してずれたら、アプリを止めずに Step1 の外の問題として出し、知らせる）
+    if(cid&&(!base||base.a!==y+"年")){console.error("年号120：Ｃの問題とずれている "+cid);base=null}
+    const id=base?base.id:chPre("H7")+"NG"+(i+1);   // 86問の id は一覧の上からの番号（1〜120。Ｃと重なる番号はとぶ）
+    const it={id,s:"C",q:card,a:y+"年",d:[],k:[],ch:"H7",era:base?base.era:"",note,goro,lab,yr:true,nen:true,nenOnly:!base,ni:i};
+    if(!base){if(QBY[id]||(typeof ADVBY!=="undefined"&&ADVBY[id])){console.error("年号120：id が重なっている "+id);return}QBY[id]=it;ALLIDS.push(id)}
+    NEN.push(it);NENBY[id]=it})}
+const nenIs=id=>!!(NENBY[id]&&NENBY[id].nenOnly);   // Step1 の外の86問
+const nenOn=()=>NEN.length===120;
+/* --- 段と回（一覧の3。年の順に並べ、同じ年はプリントの順） --- */
+const NEN_ORD=NEN.map((q,i)=>i).sort((a,b)=>parseInt(NEN[a].a)-parseInt(NEN[b].a)||a-b);
+const NEN_G=(()=>{if(!nenOn())return null;
+  const P=k=>NEN.map((q,i)=>i).filter(i=>NEN[i].lab[0]===k),p1=P("①"),p2=P("②"),p3=P("③");
+  const pat="ABABCABABABC",g={A:[],B:[],C:[]};NEN_ORD.forEach((i,k)=>g[pat[k%12]].push(i));
+  const S=[0,1,2,3,4].map(j=>NEN_ORD.filter((_,k)=>k%5===j));
+  return [
+   [["①前半",p1.slice(0,25)],["①後半",p1.slice(25)],["②前半",p2.slice(0,25)],["②後半",p2.slice(25)],["③",p3]],
+   [["①-1",p1.filter((_,k)=>k%2===0)],["①-2",p1.filter((_,k)=>k%2===1)],["②-1",p2.filter((_,k)=>k%2===0)],["②-2",p2.filter((_,k)=>k%2===1)],["③",p3]],
+   [["A-1",g.A.filter((_,k)=>k%2===0)],["A-2",g.A.filter((_,k)=>k%2===1)],["B-1",g.B.filter((_,k)=>k%2===0)],["B-2",g.B.filter((_,k)=>k%2===1)],["C",g.C]],
+   S.map((s,j)=>["S"+(j+1),s])]})();
+// モード：NEN:<段0〜3>:<回0〜4>・NEN:TA（タイムアタック）・NEN:NIJI（虹の挑戦）
+const nenMode=(s,r)=>"NEN:"+s+":"+r;
+const nenOf=m=>{const x=/^NEN:(\d):(\d)$/.exec(m||"");if(x)return {s:+x[1],r:+x[2]};if(m==="NEN:TA")return {ta:1};if(m==="NEN:NIJI")return {niji:1};return null};
+const nenFast=o=>!!(o&&(o.ta||o.niji||o.s===3));   // 4けたで自動で判定する段
+const nenLim=o=>o.niji?0:o.ta?999:CFG.nen.miss[o.s];
+/* --- 記録 d.nen（書くときだけ作る）：c＝回をクリアした時刻 {"s:r":時刻}・t＝称号を授かった時刻・ta＝タイムアタックのベスト（秒）・lg＝マスター版の1問ごとの秒数 --- */
+function nenR(d){d.nen=d.nen||{};const n=d.nen;n.c=n.c||{};n.t=n.t||{};n.ta=n.ta||{};return n}
+const nenC=(d,s,r)=>!!(d.nen&&d.nen.c&&d.nen.c[s+":"+r]);
+const nenStAll=(d,s)=>[0,1,2,3,4].every(r=>nenC(d,s,r));
+const nenGrp=(s,r)=>s<2?(r<2?0:r<4?1:2):s===2?(r<2?0:r<4?1:2):r;   // ①②③（中級は初級の同じ番号のあと）
+function nenOpen(d,s,r){
+  if(s===0)return true;
+  if(s===1){const g=nenGrp(1,r);return [0,1,2,3,4].filter(k=>nenGrp(0,k)===g).every(k=>nenC(d,0,k))}
+  return nenStAll(d,s-1)}
+const nenTaOpen=d=>nenStAll(d,1);
+const nenNijiOpen=d=>!!(d.nen&&d.nen.t&&d.nen.t.kin);
+const nenTop=d=>{const t=(d.nen&&d.nen.t)||{};for(let i=3;i>=0;i--)if(t[NEN_TK[i]])return NEN_TK[i];return null};
+const nenTtl=k=>NEN_TT[k][0];
+const nenRb=k=>rb(NEN_TT[k][0].slice(3),NEN_TT[k][1]);
+/* --- 出題 --- */
+function nenItems(m){const o=nenOf(m);let L;
+  if(o.ta)L=shuffle(NEN).slice(0,Math.min(120,CFG.nen.taN));
+  else if(o.niji)L=shuffle(NEN);
+  else{L=NEN_G[o.s][o.r][1].map(i=>NEN[i]);if(o.s>0)L=shuffle(L)}
+  return L.map(q=>({k:"s1",q,tile:true,ntile:true,nen:true}))}
+const NEN_MODES=[];
+if(nenOn()){for(let s=0;s<4;s++)for(let r=0;r<5;r++)NEN_MODES.push(nenMode(s,r));NEN_MODES.push("NEN:TA","NEN:NIJI");
+  NEN_MODES.forEach(m=>{GEN[m]=()=>nenItems(m);const o=nenOf(m);MNAME[m]=o.ta?"年号120 タイムアタック":o.niji?"年号120 虹の挑戦":"年号120 "+NEN_ST[o.s]+" "+NEN_G[o.s][o.r][0]})}
+const nenCur=()=>st&&nenOf(st.mode);
+let nenStarting=null;   // start の中（twinSep・tilePick）で、年号120 の回かを見る
+{const _s=start;start=function(mode,items){const o=nenOf(mode);if(!o)return _s.apply(this,arguments);
+  nenStarting=o;try{_s.apply(this,arguments)}finally{nenStarting=null}
+  if(st&&st.mode===mode){st.nenMiss=0;st.nenT=[];st.nenPen=0;
+    st.hp=st.hpMax=nenLim(o)+1;   // ハート＝まちがえてよい数＋1（スキル・品物で変えない）
+    const L=nenLine(o,st.set.length);if(L){st.limit=st.left=L}
+    const h=app.querySelector(".hud .hp");if(h&&!o.ta)h.innerHTML=hearts();if(st.timed)drawTimer()}}}
+// 時間の線：超級＝1問 CFG.nen.gold 秒×問題数・虹の挑戦＝CFG.nen.niji 秒・タイムアタック＝1問1分（ゆるい上限。タイムは使った時間＋まちがいの秒）・ほか＝今のしくみ（数字タイルの時間）
+const nenLine=(o,n)=>o.niji?CFG.nen.niji:o.ta?60*n:o.s===3?CFG.nen.gold*n:0;
+{const _t=twinSep;twinSep=function(items){return nenStarting?items:_t.apply(this,arguments)}}   // 初級は番号順のまま・ほかはシャッフルのまま
+{const _p=tilePick;tilePick=function(d,mode,items){
+  if(nenOf(mode))return items;
+  return _p.apply(this,arguments).map(it=>it&&it.k==="s1"&&it.q&&nenIs(it.q.id)?{k:"s1",q:it.q,tile:true,ntile:true}:it)}}   // 86問は、今日の復習などでもいつも数字で答える
+{const _g=honGate;honGate=function(m,go){return nenOf(m)?go():_g.apply(this,arguments)}}   // 関ヶ原・品物は使わない
+{const _w=wdAsk;wdAsk=function(m,go){return nenOf(m)?go():_w.apply(this,arguments)}}
+{const _r=renSettle;renSettle=function(){if(nenCur())return;return _r.apply(this,arguments)}}   // 速く押すのがねらいなので、連打の罰は数えない
+/* --- 1問ごとの経験値は出さない（各回の初めてのクリアだけ。結果画面） --- */
+{const _st=settle;settle=function(d,it,ok,ids,dt,opt){
+  const q=it&&it.q,only=!!(q&&nenIs(q.id)),o=nenCur();
+  if(!only&&!o)return _st.apply(this,arguments);
+  const e0=st?{...st.exp}:null,g0=st?st.gain:0,had=q&&Object.prototype.hasOwnProperty.call(d.era,q.era),old=q&&d.era[q.era];
+  const r=_st.apply(this,arguments);
+  if(only){if(had)d.era[q.era]=old;else delete d.era[q.era];save(d)}
+  if(o&&st){st.exp=e0;st.gain=g0;r.gain=0;
+    if(!ok)st.nenMiss++;st.hp=Math.max(0,st.hpMax-st.nenMiss)}   // スキル・品物でハートが変わっても、まちがえた数で決める
+  return r}}
+{const _kb=kbSettle;kbSettle=function(d,it,ok,ids,downIds){
+  if(it&&it.k==="s1"&&it.q&&nenIs(it.q.id))return _kb.call(this,d,{k:"nen",q:it.q},ok,ids,downIds);   // 86問は見聞に入れない
+  return _kb.apply(this,arguments)}}
+// 忘れかけだけ：86問の忘れかけも入れる
+const nenForget=d=>NEN.filter(q=>q.nenOnly&&!d.wrong.includes(q.id)&&isForget(d,q.id)).map(q=>({k:"s1",q,tile:true,ntile:true}));
+{const _f=GEN.FORGET;GEN.FORGET=function(d){const t=nenForget(d);const a=_f.apply(this,arguments);if(!t.length)return a;return shuffle([...a,...t]).slice(0,CFG.todayMax)}}
+/* --- 問題の画面：札と数字のパネル（電卓の並び） --- */
+const NEN_PAD=[7,8,9,4,5,6,1,2,3];
+function nenHtml(it,d){const q=it.q,o=nenCur(),tag=o?MNAME[st.mode]:"年号120";
+  const head=`<div class="tag">${tag}<span class="nn tln">数字で答える</span></div>${o&&o.ta?"":stars(d,q.id)}<p class="lead" style="margin-bottom:4px">この出来事は何年？${o&&nenFast(o)?`（4けたは入れたら判定）`:""}</p><div class="q nenq">${q.q.replace(/（/,"<small>（").replace(/）$/,"）</small>")}</div>`;
+  const body=`<div class="tkyrow"><div class="tlans tkyans" id="tlans"></div><span class="tkynen">年</span></div>
+  <div class="nenpad">${NEN_PAD.map(n=>`<button class="tkd" data-n="${n}">${n}</button>`).join("")}<button class="tlb nenbk" id="tlBack">⌫</button><button class="tkd" data-n="0">0</button><button class="tlb nenclr" id="tlClr">C</button></div>
+  <div class="decide"><button class="btn" id="tlGo" disabled>こたえる</button></div>`;
+  return [head,body]}
+function nenBind(it){
+  st.tl=[];st.tlT=0;const box=document.getElementById("tlans"),go=document.getElementById("tlGo"),o=nenCur(),fast=nenFast(o)&&CFG.nen.auto;
+  const lock=()=>{const n=performance.now();if(!st.running||n-st.tlT<(fast?40:60))return true;st.tlT=n;return false};
+  const draw=()=>{box.innerHTML=st.tl.length?st.tl.map(n=>`<span class="tlc">${n}</span>`).join(""):`<span class="ph">ここに数字が入る</span>`;
+    app.querySelectorAll(".nenpad .tkd").forEach(b=>b.disabled=st.tl.length>=4);go.disabled=!st.tl.length;
+    document.getElementById("tlBack").disabled=document.getElementById("tlClr").disabled=!st.tl.length};
+  app.querySelectorAll(".nenpad .tkd").forEach(b=>b.onclick=()=>{if(b.disabled||lock()||st.tl.length>=4)return;st.tl.push(b.dataset.n);draw();
+    if(fast&&st.tl.length===4)nenJudge(it)});
+  document.getElementById("tlBack").onclick=()=>{if(lock())return;st.tl.pop();draw()};
+  document.getElementById("tlClr").onclick=()=>{if(lock())return;st.tl=[];draw()};
+  go.onclick=()=>{if(go.disabled||!st.running)return;nenJudge(it)};
+  draw()}
+function nenJudge(it){
+  if(!st.running)return;st.running=false;
+  const q=it.q,d=load(),dt=(performance.now()-st.qStart)/1000,v=st.tl.join(""),ok=v===String(parseInt(q.a)),o=nenCur();
+  if(o)st.nenT.push([q.lab,Math.round(dt*100)/100,ok]);
+  app.querySelectorAll(".nenpad button,#tlGo,.sbtn").forEach(x=>x.disabled=true);
+  const box=document.getElementById("tlans");box.classList.add(ok?"ok":"ng");
+  if(o&&o.ta){   // タイムアタック：★・経験値は動かさない。まちがえたら今日の復習へ・＋CFG.nen.pen 秒
+    st.results.push({it:{k:"s1",q,tile:true},ok,v:v?v+"年":"（なし）"});
+    if(!ok){st.nenMiss++;st.nenPen+=CFG.nen.pen;st.used+=CFG.nen.pen;if(!d.wrong.includes(q.id)){d.wrong.push(q.id);d.maxWrong=Math.max(d.maxWrong,d.wrong.length);save(d)}
+      box.insertAdjacentHTML("afterend",`<div class="nenta ng">× ${q.a}　＋${CFG.nen.pen}秒</div>`)}
+    const next=()=>{if(st.done)return;st.idx++;st.idx<st.set.length?show():finish("end")};
+    return ok?next():setTimeout(next,700)}
+  if(ok){if(!q.nenOnly){d.tw=d.tw.filter(x=>x!==q.id);if(!d.tg.includes(q.id)){d.tg.push(q.id);st.tlNew=(st.tlNew||0)+1}}}
+  else if(!q.nenOnly&&!d.tw.includes(q.id))d.tw.push(q.id);
+  const res=settle(d,{k:"s1",q,tile:true},ok,[q.id],dt,{tile:true});
+  st.results.push({it:{k:"s1",q,tile:true},ok,v:v?v+"年":"（なし）"});
+  let fb="";
+  if(!ok)fb=`<div class="ansline">答え：<b>${q.a}</b></div><div class="tlyour">あなたの答え：<b>${v?esc(v)+"年":"（なし）"}</b></div>${q.goro?`<div class="nengoro"><b>ゴロ</b>${esc(q.goro)}</div>`:""}`;
+  if(q.note)fb+=`<div class="note">${q.note}</div>`;
+  afterAnswer({k:"s1",q},ok,res,fb,true)}
+{const _h=tileHtml;tileHtml=function(it,d){return it.q&&it.q.nen&&(it.nen||it.q.nenOnly)?nenHtml(it,d):_h.apply(this,arguments)}}
+{const _b=tileBind;tileBind=function(it){return it.q&&it.q.nen&&(it.nen||it.q.nenOnly)?nenBind(it):_b.apply(this,arguments)}}
+{const _sh=show;show=function(){const r=_sh.apply(this,arguments);const o=nenCur();
+  if(o&&o.ta){const h=app.querySelector(".hud .hp");if(h)h.innerHTML=`<span class="nentam">まちがい ${st.nenMiss}（＋${st.nenPen}秒）</span>`}
+  return r}}
+{const _sk=shkNeed;shkNeed=function(key,d){if(key==="tile"&&st&&st.set&&st.set[st.idx]&&st.set[st.idx].q&&st.set[st.idx].q.nen)return false;return _sk.apply(this,arguments)}}   // 初見の説明（文字タイル）は出さない
+/* --- 結果：回のクリア・称号・ごほうび（22 の jinResult を包む。11 の finish が JIN の位置に出す） --- */
+{const _f=finish;finish=function(why){const o=st&&nenOf(st.mode);if(o&&why==="time"&&!st.done){st.nenTime=true;why="over"}return _f.call(this,why)}}   // 時間切れは「クリアならず」（答えていない問題を今日の復習に入れない）
+function nenTitleCheck(d){const n=nenR(d),now=Date.now(),got=[];
+  const c=[["dou",nenStAll(d,1)],["gin",nenStAll(d,2)],["kin",nenStAll(d,3)]];
+  c.forEach(([k,ok])=>{if(ok&&!n.t[k]){n.t[k]=now;got.push(k)}});
+  NEN_TK.forEach(k=>{if(n.t[k]&&!d.titles.includes(nenTtl(k)))d.titles.push(nenTtl(k))});
+  return got}
+function nenTitleFx(k){const t=k==="kin"||k==="niji"?NEN_TALE[k]:"";
+  return {k:"nentitle_"+k,cls:"tre nenfx",html:`<div class="nenfxin"><div class="k">称号を授かった！</div><div class="nenbig"><span class="nenmark nm_${k}"></span>${esc(nenTtl(k).slice(0,3))}${nenRb(k)}</div><div class="s">年号120　${k==="dou"?"中級":k==="gin"?"上級":k==="kin"?"超級":"虹の挑戦"}をなしとげた</div>${t?`<div class="nentale">${koHtml("joy",t)}</div>`:""}</div>`}}
+function nenResult(d,why,c,n){
+  const out={exp:0,row:"",html:"",fx:[],msg:""},o=nenOf(st.mode),nm=MNAME[st.mode],nr=nenR(d);
+  if(why==="quit")return out;
+  const miss=st.nenMiss||0,lim=nenLim(o),used=st.used;
+  if(o.ta){const L=CFG.nen.taN,t=Math.round(used*10)/10,gl=CFG.nen.gold*L,nl=CFG.nen.niji/120*L,prev=nr.ta.b,nb=why==="end"&&(!prev||t<prev);
+    if(why==="end"){if(nb)nr.ta.b=t;if(t<=gl&&!nr.ta.g)nr.ta.g=Date.now();if(t<=nl&&!nr.ta.n)nr.ta.n=Date.now()}
+    out.msg=(why==="end"?`タイム ${t.toFixed(1)}秒${nb?"　ベスト更新！":""}`:"タイムアタック")+`<i class="nentaM"></i>`;   // nentaM：ふつうの「タイム（制限）」の行を消す印（nen.css）
+    out.html=`<div class="get nenres"><div class="k">タイムアタック</div><div class="v">${why==="end"?`${t.toFixed(1)}秒（まちがい ${miss}・＋${st.nenPen}秒をふくむ）`:"とちゅうまで"}</div><div class="s">ベスト ${nr.ta.b?nr.ta.b.toFixed(1)+"秒":"－"}　金の線 ${gl.toFixed(0)}秒${nr.ta.g?" ✓":""}　虹の線 ${nl.toFixed(0)}秒${nr.ta.n?" ✓":""}</div></div>`;
+    nenLog(d);save(d);return out}
+  const timeOk=!(o.niji||o.s===3)||used<=st.limit+1e-6;
+  const clear=why==="end"&&miss<=lim&&timeOk&&!st.nenTime;
+  let s="";
+  if(clear){
+    if(o.niji){if(!nr.t.niji){nr.t.niji=Date.now();out.fx.push(nenTitleFx("niji"));if(!d.titles.includes(nenTtl("niji")))d.titles.push(nenTtl("niji"))}s="虹の挑戦をなしとげた！"}
+    else{const k=o.s+":"+o.r,first=!nr.c[k];if(first){nr.c[k]=Date.now();out.exp=Math.round(n*CFG.clearS1);out.row="クリア（"+nm+"・初めて）"}
+      s=first?"クリア！":"クリア！（2回目からは経験値なし）";
+      nenTitleCheck(d).forEach(t=>out.fx.push(nenTitleFx(t)))}
+    out.msg=nm+"　"+s}
+  else out.msg=st.nenTime?"時間切れ。この回はクリアならず。":miss>lim?`まちがいが${lim}こをこえたので、この回はクリアならず。`:nm;
+  out.html=`<div class="get nenres"><div class="k">年号120</div><div class="v">${esc(nm)}　${clear?"クリア":"クリアならず"}</div><div class="s">まちがい ${miss}（${lim}こまで）${o.niji||o.s===3?`・タイム ${fmtT(used)}（${fmtT(st.limit)}以内）`:""}</div></div>`;
+  nenLog(d);save(d);return out}
+{const _aa=afterAnswer;afterAnswer=function(it,ok,res,fbHtml,autoOk){const r=_aa.apply(this,arguments);const o=nenCur();
+  if(o&&!st.boss&&st.timed&&st.hp<=0&&!st.ren){const b=app.querySelector("#fb .fb.ng .big");if(b)b.textContent=`× まちがいが${nenLim(o)}こをこえた`}
+  return r}}
+{const _jin=jinResult;jinResult=function(d,why,c,n){return st&&nenOf(st.mode)?nenResult(d,why,c,n):_jin.apply(this,arguments)}}
+// マスター版：1問ごとの秒数を残す（HK.nenLog があるときだけ。最後の10回）
+function nenLog(d){if(!HK.nenLog||!st.nenT)return;const n=nenR(d);n.lg=(n.lg||[]).concat([[Date.now(),st.mode,st.nenT]]).slice(-10)}
+/* --- 銭（D6）：称号のごほうびは wdUpAll に足す（結果画面・財布が今のしくみで知らせる） --- */
+{const _a=wdUpAll;wdUpAll=function(d){const a=_a.apply(this,arguments),t=(d.nen&&d.nen.t)||{};NEN_TK.forEach(k=>{if(t[k])a.push([NEN_UP[k],"nen:"+k])});return a}}
+{const _y=wdUpWhy;wdUpWhy=function(k){if(/^nen:/.test(k)){const t=k.slice(4);return NEN_TT[t]?"称号「"+nenTtl(t)+"」":""}return _y.apply(this,arguments)}}
+/* --- 入り口：北極星の章の［セットで覚える］のいちばん下「もう一歩　Step1 の外」の枠 --- */
+function nenCardHtml(d){
+  const rows=NEN_ST.map((nm,s)=>{const op=[0,1,2,3,4].some(r=>nenOpen(d,s,r));
+    if(!op)return `<div class="nenrow nenlk"><b>${nm}</b><small>🔒 ${s===1?"初級の同じ番号の回を全部クリア":NEN_ST[s-1]+"を全部クリア"}すると挑戦できる</small></div>`;
+    return `<div class="nenrow"><b>${nm}<small>${CFG.nen.miss[s]}ミスまで${s===3?"・時間内":""}</small></b><span class="nenbtns">${NEN_G[s].map(([lb],r)=>{const ok=nenOpen(d,s,r),c=nenC(d,s,r);
+      return `<button class="nenb${c?" done":""}" data-nen="${nenMode(s,r)}"${ok?"":" disabled"}${c?' aria-label="クリア済み '+lb+'"':""}>${ok?"":"🔒"}${lb}</button>`}).join("")}</span></div>`}).join("");
+  const ta=nenTaOpen(d)?`<button class="nenx" data-nen="NEN:TA"><b>タイムアタック</b><small>${CFG.nen.taN}問・まちがいは＋${CFG.nen.pen}秒　ベスト ${d.nen&&d.nen.ta&&d.nen.ta.b?d.nen.ta.b.toFixed(1)+"秒":"－"}</small></button>`:"";
+  const nj=nenNijiOpen(d)?`<button class="nenx niji" data-nen="NEN:NIJI"><b>虹の挑戦</b><small>120問を1回で・満点・${fmtT(CFG.nen.niji)}以内${d.nen.t.niji?"　✓ なしとげた":""}</small></button>`:"";
+  const top=nenTop(d);
+  return `<div class="card hmsub nencard"><div class="tag">もう一歩　Step1 の外</div>
+  <div class="nenhd"><b>年号120</b><small>塾の《歴史年号》の120。年を数字で答える</small>${top?`<span class="nenmark nm_${top}"></span>`:""}</div>
+  ${rows}${ta||nj?`<div class="nenxs">${ta}${nj}</div>`:""}</div>`}
+function nenGo(m){honGate(m,()=>wdAsk(m,()=>start(m,GEN[m](load()))))}
+{const _sv=setsView;setsView=function(){
+  const r=_sv.apply(this,arguments);
+  if(nenOn()&&chCur()==="H7"){const el=app.querySelector(".tgcard")||app.querySelector(".card.hmsub");
+    if(el){el.insertAdjacentHTML("afterend",nenCardHtml(load()));app.querySelectorAll(".nencard [data-nen]").forEach(b=>b.onclick=()=>{if(!b.disabled)nenGo(b.dataset.nen)})}}
+  return r}}
+/* --- ホームの印：取った称号のいちばん上の1つだけ（見出しの行の右・月の左。押すと称号の名前と授かった日） --- */
+function nenBadge(){document.querySelectorAll("header .nenbadge").forEach(x=>x.remove());
+  if(!document.body.classList.contains("hmhome")&&!app.querySelector(".home"))return;
+  const d=load(),k=nenTop(d),hd=document.querySelector("header");if(!k||!hd)return;
+  const now=Date.now(),fresh=k==="kin"&&now-d.nen.t.kin<864e5&&!d.lowFx;
+  const b=document.createElement("button");b.type="button";b.className="nenbadge nm_"+k+(fresh?" glow":"");b.setAttribute("aria-label","称号 "+nenTtl(k));
+  b.innerHTML=`<span class="nenmark nm_${k}"></span>`;
+  const mo=hd.querySelector(".hsmoon");hd.insertBefore(b,mo||null);
+  b.onclick=e=>{e.stopPropagation();const t=new Date(d.nen.t[k]);
+    popup(`<div class="tag">称号</div><div class="nenpop"><span class="nenmark nm_${k}"></span><div><b>${esc(nenTtl(k).slice(0,3))}${nenRb(k)}</b><small>年号120${d.nen.t[k]?`　${t.getFullYear()}年${t.getMonth()+1}月${t.getDate()}日に授かった`:""}</small></div></div>`)}}
+{const _m=menu;menu=function(){const r=_m.apply(this,arguments);try{nenBadge()}catch(e){}return r}}
+/* --- こよみの小話（ホームの下の「こよみの小話」の中に、年号120 の小話。金の称号から。虹を取ったらお祝いの小話に変わる） --- */
+if(typeof kkTalesHtml==="function"){const _kt=kkTalesHtml;kkTalesHtml=function(d){const h=_kt.apply(this,arguments),t=(d.nen&&d.nen.t)||{};
+  const k=t.niji?"niji":t.kin?"kin":null;return h+(k?`<div class="kotch"><b>年号120の小話</b><ul><li>${NEN_TALE[k]}</li></ul></div>`:"")}}
 menu();
 </script>
 </body>
