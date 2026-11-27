@@ -2352,6 +2352,7 @@ html.hsdk .hsmoon:not(.low) .mosv .mol{animation:moGlow 4s ease-in-out infinite 
 .nenbtns{flex:1;min-width:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
 .nenb{min-height:40px;padding:2px 0;font-size:12px;white-space:nowrap;border:1.5px solid var(--ink);border-radius:8px;background:#fff;color:var(--ink);cursor:pointer;line-height:1.15}
 .nenb{position:relative;overflow:visible}
+.nenbtns.one{grid-template-columns:minmax(0,1fr)}.nensp{width:100%;min-height:44px}.nensp small{line-height:1.35}
 .nenb.done{background:#eef6ea;border-color:#5a8f4e;color:#3d6b33}
 .nenb.done::after{content:"✓";position:absolute;right:-4px;top:-7px;width:16px;height:16px;border-radius:50%;background:#5a8f4e;color:#fff;font-size:10px;line-height:16px;text-align:center}
 .nenb:disabled{opacity:.4;cursor:default}
@@ -14158,7 +14159,9 @@ function tkThJudge(it){
    塾内版だけの部品（全国版には入れない＝この部品と nen.css を組み立てに入れなければ、ほかは何も変わらない）。北極星の章 H7 の［セットで覚える］のいちばん下「もう一歩　Step1 の外」の枠に「年号120」。
    問題は塾の《歴史年号①〜③》の120（NEN_R＝[番号, 年, 札, ゴロ, 解説, Step1 のＣの id]。正本は tools/nen1/nendata.py）。どの段も札を出し、年を数字のパネル（電卓の並び）で答える。
    Ｃと重なる34問は Step1 のＣと同じ id（★・まちがい・今日の復習を分けない。年号120 の枠では札で出す）。残り86問は id H7_NG<一覧の上からの番号>（Step1 の外。QBY・ALLIDS にだけ入る＝対の語と同じ扱い。見聞・時代別の正答率には入れない）。
-   段：初級（番号順）・中級・上級・超級（シャッフル）を5回ずつ。まちがえてよい数は CFG.nen.miss（ハート＝その数＋1）。超級は1問 CFG.nen.gold 秒×問題数以内。2回目からのクリアに経験値は出さない（1問ごとの経験値も出さない）。
+   段：初級（番号順）・中級・上級（シャッフル）を5回ずつ。まちがえてよい数は CFG.nen.miss（ハート＝その数＋1）。2回目からのクリアに経験値は出さない（1問ごとの経験値も出さない）。
+   超級（U45）：ボタン1つ。まだ「済」でない問題から24問をランダムに出し、クリアした回の24問は「済」。5回続けてクリアで120問全部＝金の称号。失敗（まちがい・時間切れ）や、答えてからとちゅうでやめると0／5（済を全部消す）。1問 CFG.nen.gold 秒×問題数以内。
+   超級・虹の挑戦・タイムアタックは、答えのけた数まで入れたら判定する（U45。120問の答えに、別の答えの頭の数字になる組はない）。
    タイムアタック（中級を全部クリア）：CFG.nen.taN 問・まちがいは＋CFG.nen.pen 秒・★を動かさない。虹の挑戦（金の称号から）：120問・満点・CFG.nen.niji 秒以内。
    称号4つ（中級・上級・超級・虹の挑戦）とごほうびの銭（15 の wdUpAll を包む）・ホームの印（見出しの行の右）・こよみの小話（26 の kkTalesHtml を包む）。記録 d.nen（書くときだけ作る）。マスター版は HK.nenLog で1問ごとの秒数を残す。
    ほかの部品は直さず、関数を包む（start・twinSep・tilePick・honGate・wdAsk・renSettle・settle・kbSettle・GEN.FORGET・tileHtml・tileBind・show・shkNeed・finish・afterAnswer・jinResult・wdUpAll・wdUpWhy・setsView・menu・kkTalesHtml）。 */
@@ -14318,13 +14321,19 @@ const NEN_G=(()=>{if(!nenOn())return null;
    S.map((s,j)=>["S"+(j+1),s])]})();
 // モード：NEN:<段0〜3>:<回0〜4>・NEN:TA（タイムアタック）・NEN:NIJI（虹の挑戦）
 const nenMode=(s,r)=>"NEN:"+s+":"+r;
-const nenOf=m=>{const x=/^NEN:(\d):(\d)$/.exec(m||"");if(x)return {s:+x[1],r:+x[2]};if(m==="NEN:TA")return {ta:1};if(m==="NEN:NIJI")return {niji:1};return null};
-const nenFast=o=>!!(o&&(o.ta||o.niji||o.s===3));   // 4けたで自動で判定する段
+const nenOf=m=>{const x=/^NEN:(\d):(\d)$/.exec(m||"");if(x)return {s:+x[1],r:+x[2]};if(m==="NEN:S")return {s:3,sp:1};if(m==="NEN:TA")return {ta:1};if(m==="NEN:NIJI")return {niji:1};return null};
+const nenFast=o=>!!(o&&(o.ta||o.niji||o.s===3));   // 答えのけた数まで入れたら自動で判定する段（U45。v68 は4けただけ）
 const nenLim=o=>o.niji?0:o.ta?999:CFG.nen.miss[o.s];
 /* --- 記録 d.nen（書くときだけ作る）：c＝回をクリアした時刻 {"s:r":時刻}・t＝称号を授かった時刻・ta＝タイムアタックのベスト（秒）・lg＝マスター版の1問ごとの秒数 --- */
 function nenR(d){d.nen=d.nen||{};const n=d.nen;n.c=n.c||{};n.t=n.t||{};n.ta=n.ta||{};return n}
 const nenC=(d,s,r)=>!!(d.nen&&d.nen.c&&d.nen.c[s+":"+r]);
 const nenStAll=(d,s)=>[0,1,2,3,4].every(r=>nenC(d,s,r));
+// 超級（U45）：記録 d.nen.sp＝{k:今の続きでクリアした回の数, ids:[「済」の問題の id], x:{"1"〜"5":その番目を初めてクリアした時刻}}（書くときだけ作る）。
+//   v68 の S1〜S5 の記録（c の "3:0"〜"3:4"）は進み具合に使わない（消さない。もらった称号はそのまま）。経験値は番目ごとに初めてのクリアだけ（x）。
+const NEN_SPN=24;
+const nenSpK=d=>(d.nen&&d.nen.sp&&d.nen.sp.k)||0;
+function nenSp(d){const n=nenR(d);n.sp=n.sp||{k:0,ids:[],x:{}};n.sp.ids=n.sp.ids||[];n.sp.x=n.sp.x||{};return n.sp}
+function nenSpReset(d){const s=nenSp(d);s.k=0;s.ids=[]}
 const nenGrp=(s,r)=>s<2?(r<2?0:r<4?1:2):s===2?(r<2?0:r<4?1:2):r;   // ①②③（中級は初級の同じ番号のあと）
 function nenOpen(d,s,r){
   if(s===0)return true;
@@ -14336,14 +14345,16 @@ const nenTop=d=>{const t=(d.nen&&d.nen.t)||{};for(let i=3;i>=0;i--)if(t[NEN_TK[i
 const nenTtl=k=>NEN_TT[k][0];
 const nenRb=k=>rb(NEN_TT[k][0].slice(3),NEN_TT[k][1]);
 /* --- 出題 --- */
-function nenItems(m){const o=nenOf(m);let L;
+function nenItems(m,d){const o=nenOf(m);let L;
   if(o.ta)L=shuffle(NEN).slice(0,Math.min(120,CFG.nen.taN));
+  else if(o.sp){const done=new Set((((d||load()).nen||{}).sp||{}).ids||[]);let P=NEN.filter(q=>!done.has(q.id));if(P.length<NEN_SPN)P=NEN;L=shuffle(P).slice(0,NEN_SPN)}   // 超級：まだ「済」でない問題から24問
   else if(o.niji)L=shuffle(NEN);
   else{L=NEN_G[o.s][o.r][1].map(i=>NEN[i]);if(o.s>0)L=shuffle(L)}
   return L.map(q=>({k:"s1",q,tile:true,ntile:true,nen:true}))}
 const NEN_MODES=[];
-if(nenOn()){for(let s=0;s<4;s++)for(let r=0;r<5;r++)NEN_MODES.push(nenMode(s,r));NEN_MODES.push("NEN:TA","NEN:NIJI");
-  NEN_MODES.forEach(m=>{GEN[m]=()=>nenItems(m);const o=nenOf(m);MNAME[m]=o.ta?"年号120 タイムアタック":o.niji?"年号120 虹の挑戦":"年号120 "+NEN_ST[o.s]+" "+NEN_G[o.s][o.r][0]})}
+if(nenOn()){for(let s=0;s<3;s++)for(let r=0;r<5;r++)NEN_MODES.push(nenMode(s,r));NEN_MODES.push("NEN:S","NEN:TA","NEN:NIJI");
+  NEN_MODES.forEach(m=>{const o=nenOf(m);GEN[m]=d=>{if(o.sp)MNAME[m]="年号120 超級 "+(nenSpK(d||load())+1)+"回目";return nenItems(m,d)};
+    MNAME[m]=o.ta?"年号120 タイムアタック":o.niji?"年号120 虹の挑戦":o.sp?"年号120 超級":"年号120 "+NEN_ST[o.s]+" "+NEN_G[o.s][o.r][0]})}
 const nenCur=()=>st&&nenOf(st.mode);
 let nenStarting=null;   // start の中（twinSep・tilePick）で、年号120 の回かを見る
 {const _s=start;start=function(mode,items){const o=nenOf(mode);if(!o)return _s.apply(this,arguments);
@@ -14380,7 +14391,7 @@ const nenForget=d=>NEN.filter(q=>q.nenOnly&&!d.wrong.includes(q.id)&&isForget(d,
 /* --- 問題の画面：札と数字のパネル（電卓の並び） --- */
 const NEN_PAD=[7,8,9,4,5,6,1,2,3];
 function nenHtml(it,d){const q=it.q,o=nenCur(),tag=o?MNAME[st.mode]:"年号120";
-  const head=`<div class="tag">${tag}<span class="nn tln">数字で答える</span></div>${o&&o.ta?"":stars(d,q.id)}<p class="lead" style="margin-bottom:4px">この出来事は何年？${o&&nenFast(o)?`（4けたは入れたら判定）`:""}</p><div class="q nenq">${q.q.replace(/（/,"<small>（").replace(/）$/,"）</small>")}</div>`;
+  const head=`<div class="tag">${tag}<span class="nn tln">数字で答える</span></div>${o&&o.ta?"":stars(d,q.id)}<p class="lead" style="margin-bottom:4px">この出来事は何年？${o&&nenFast(o)?`（最後の数字を入れたら判定）`:""}</p><div class="q nenq">${q.q.replace(/（/,"<small>（").replace(/）$/,"）</small>")}</div>`;
   const body=`<div class="tkyrow"><div class="tlans tkyans" id="tlans"></div><span class="tkynen">年</span></div>
   <div class="nenpad">${NEN_PAD.map(n=>`<button class="tkd" data-n="${n}">${n}</button>`).join("")}<button class="tlb nenbk" id="tlBack">⌫</button><button class="tkd" data-n="0">0</button><button class="tlb nenclr" id="tlClr">C</button></div>
   <div class="decide"><button class="btn" id="tlGo" disabled>こたえる</button></div>`;
@@ -14392,7 +14403,7 @@ function nenBind(it){
     app.querySelectorAll(".nenpad .tkd").forEach(b=>b.disabled=st.tl.length>=4);go.disabled=!st.tl.length;
     document.getElementById("tlBack").disabled=document.getElementById("tlClr").disabled=!st.tl.length};
   app.querySelectorAll(".nenpad .tkd").forEach(b=>b.onclick=()=>{if(b.disabled||lock()||st.tl.length>=4)return;st.tl.push(b.dataset.n);draw();
-    if(fast&&st.tl.length===4)nenJudge(it)});
+    if(fast&&st.tl.length===String(parseInt(it.q.a)).length)nenJudge(it)});   // U45：答えのけた数（57年は2つ目・794年は3つ目）で判定
   document.getElementById("tlBack").onclick=()=>{if(lock())return;st.tl.pop();draw()};
   document.getElementById("tlClr").onclick=()=>{if(lock())return;st.tl=[];draw()};
   go.onclick=()=>{if(go.disabled||!st.running)return;nenJudge(it)};
@@ -14421,12 +14432,15 @@ function nenJudge(it){
 {const _b=tileBind;tileBind=function(it){return it.q&&it.q.nen&&(it.nen||it.q.nenOnly)?nenBind(it):_b.apply(this,arguments)}}
 {const _sh=show;show=function(){const r=_sh.apply(this,arguments);const o=nenCur();
   if(o&&o.ta){const h=app.querySelector(".hud .hp");if(h)h.innerHTML=`<span class="nentam">まちがい ${st.nenMiss}（＋${st.nenPen}秒）</span>`}
+  if(o&&o.sp&&nenSpK(load())>0){const qb=document.getElementById("quit");   // 超級（U45）：答えてからとちゅうでやめると0／5（1／5 以上のときだけ確認の文を変える）
+    if(qb)qb.onclick=()=>{if(!st.results.length)return menu();st.running=false;
+      const el=dialog("とちゅうでやめると、超級は0／5にもどります。やめますか？","やめる",()=>finish("quit"));el.querySelector("#dno").addEventListener("click",()=>{st.running=true})}}
   return r}}
 {const _sk=shkNeed;shkNeed=function(key,d){if(key==="tile"&&st&&st.set&&st.set[st.idx]&&st.set[st.idx].q&&st.set[st.idx].q.nen)return false;return _sk.apply(this,arguments)}}   // 初見の説明（文字タイル）は出さない
 /* --- 結果：回のクリア・称号・ごほうび（22 の jinResult を包む。11 の finish が JIN の位置に出す） --- */
 {const _f=finish;finish=function(why){const o=st&&nenOf(st.mode);if(o&&why==="time"&&!st.done){st.nenTime=true;why="over"}return _f.call(this,why)}}   // 時間切れは「クリアならず」（答えていない問題を今日の復習に入れない）
 function nenTitleCheck(d){const n=nenR(d),now=Date.now(),got=[];
-  const c=[["dou",nenStAll(d,1)],["gin",nenStAll(d,2)],["kin",nenStAll(d,3)]];
+  const c=[["dou",nenStAll(d,1)],["gin",nenStAll(d,2)],["kin",nenStAll(d,3)||nenSpK(d)>=5]];   // 金：超級を5回続けてクリア（U45。v68 の S1〜S5 を全部クリアした記録でも）
   c.forEach(([k,ok])=>{if(ok&&!n.t[k]){n.t[k]=now;got.push(k)}});
   NEN_TK.forEach(k=>{if(n.t[k]&&!d.titles.includes(nenTtl(k)))d.titles.push(nenTtl(k))});
   return got}
@@ -14434,7 +14448,7 @@ function nenTitleFx(k){const t=k==="kin"||k==="niji"?NEN_TALE[k]:"";
   return {k:"nentitle_"+k,cls:"tre nenfx",html:`<div class="nenfxin"><div class="k">称号を授かった！</div><div class="nenbig"><span class="nenmark nm_${k}"></span>${esc(nenTtl(k).slice(0,3))}${nenRb(k)}</div><div class="s">年号120　${k==="dou"?"中級":k==="gin"?"上級":k==="kin"?"超級":"虹の挑戦"}をなしとげた</div>${t?`<div class="nentale">${koHtml("joy",t)}</div>`:""}</div>`}}
 function nenResult(d,why,c,n){
   const out={exp:0,row:"",html:"",fx:[],msg:""},o=nenOf(st.mode),nm=MNAME[st.mode],nr=nenR(d);
-  if(why==="quit")return out;
+  if(why==="quit"){if(o.sp&&nenSpK(d)>0){nenSpReset(d);save(d)}return out}   // 超級（U45）：答えてからやめたら0／5
   const miss=st.nenMiss||0,lim=nenLim(o),used=st.used;
   if(o.ta){const L=CFG.nen.taN,t=Math.round(used*10)/10,gl=CFG.nen.gold*L,nl=CFG.nen.niji/120*L,prev=nr.ta.b,nb=why==="end"&&(!prev||t<prev);
     if(why==="end"){if(nb)nr.ta.b=t;if(t<=gl&&!nr.ta.g)nr.ta.g=Date.now();if(t<=nl&&!nr.ta.n)nr.ta.n=Date.now()}
@@ -14446,11 +14460,16 @@ function nenResult(d,why,c,n){
   let s="";
   if(clear){
     if(o.niji){if(!nr.t.niji){nr.t.niji=Date.now();out.fx.push(nenTitleFx("niji"));if(!d.titles.includes(nenTtl("niji")))d.titles.push(nenTtl("niji"))}s="虹の挑戦をなしとげた！"}
+    else if(o.sp){const sp=nenSp(d);st.set.forEach(it=>{if(!sp.ids.includes(it.q.id))sp.ids.push(it.q.id)});sp.k++;const kk=sp.k,first=!sp.x[kk];
+      if(first){sp.x[kk]=Date.now();out.exp=Math.round(n*CFG.clearS1);out.row="クリア（"+nm+"・初めて）"}
+      s=kk>=5?"クリア！　120問をすべて通った":"クリア！　"+kk+"／5"+(first?"":"（この番目の経験値は前にもらった）");
+      nenTitleCheck(d).forEach(t=>out.fx.push(nenTitleFx(t)));if(kk>=5)nenSpReset(d)}   // 5回目のあとは0／5から（金の称号を取ったあとも）
     else{const k=o.s+":"+o.r,first=!nr.c[k];if(first){nr.c[k]=Date.now();out.exp=Math.round(n*CFG.clearS1);out.row="クリア（"+nm+"・初めて）"}
       s=first?"クリア！":"クリア！（2回目からは経験値なし）";
       nenTitleCheck(d).forEach(t=>out.fx.push(nenTitleFx(t)))}
     out.msg=nm+"　"+s}
-  else out.msg=st.nenTime?"時間切れ。この回はクリアならず。":miss>lim?`まちがいが${lim}こをこえたので、この回はクリアならず。`:nm;
+  else{const back=o.sp&&nenSpK(d)>0;if(o.sp)nenSpReset(d);   // 超級（U45）：失敗したら0／5（済を全部消す）
+    out.msg=(st.nenTime?"時間切れ。この回はクリアならず。":miss>lim?`まちがいが${lim}こをこえたので、この回はクリアならず。`:o.sp?"この回はクリアならず。":nm)+(back?"超級は0／5にもどった。":"")}
   out.html=`<div class="get nenres"><div class="k">年号120</div><div class="v">${esc(nm)}　${clear?"クリア":"クリアならず"}</div><div class="s">まちがい ${miss}（${lim}こまで）${o.niji||o.s===3?`・タイム ${fmtT(used)}（${fmtT(st.limit)}以内）`:""}</div></div>`;
   nenLog(d);save(d);return out}
 {const _aa=afterAnswer;afterAnswer=function(it,ok,res,fbHtml,autoOk){const r=_aa.apply(this,arguments);const o=nenCur();
@@ -14466,6 +14485,8 @@ function nenLog(d){if(!HK.nenLog||!st.nenT)return;const n=nenR(d);n.lg=(n.lg||[]
 function nenCardHtml(d){
   const rows=NEN_ST.map((nm,s)=>{const op=[0,1,2,3,4].some(r=>nenOpen(d,s,r));
     if(!op)return `<div class="nenrow nenlk"><b>${nm}</b><small>🔒 ${s===1?"初級の同じ番号の回を全部クリア":NEN_ST[s-1]+"を全部クリア"}すると挑戦できる</small></div>`;
+    if(s===3){const kin=!!(d.nen&&d.nen.t&&d.nen.t.kin);   // 超級（U45）：ボタン1つ・進み具合「○／5回クリア」
+      return `<div class="nenrow"><b>${nm}<small>${CFG.nen.miss[s]}ミスまで・時間内</small></b><span class="nenbtns one"><button class="nenx nensp" data-nen="NEN:S"><b>${nenSpK(d)}／5回クリア</b><small>まだ通っていない問題から${NEN_SPN}問。失敗すると0／5にもどる${kin?"　✓ なしとげた":""}</small></button></span></div>`}
     return `<div class="nenrow"><b>${nm}<small>${CFG.nen.miss[s]}ミスまで${s===3?"・時間内":""}</small></b><span class="nenbtns">${NEN_G[s].map(([lb],r)=>{const ok=nenOpen(d,s,r),c=nenC(d,s,r);
       return `<button class="nenb${c?" done":""}" data-nen="${nenMode(s,r)}"${ok?"":" disabled"}${c?' aria-label="クリア済み '+lb+'"':""}>${ok?"":"🔒"}${lb}</button>`}).join("")}</span></div>`}).join("");
   const ta=nenTaOpen(d)?`<button class="nenx" data-nen="NEN:TA"><b>タイムアタック</b><small>${CFG.nen.taN}問・まちがいは＋${CFG.nen.pen}秒　ベスト ${d.nen&&d.nen.ta&&d.nen.ta.b?d.nen.ta.b.toFixed(1)+"秒":"－"}</small></button>`:"";
