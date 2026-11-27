@@ -11991,6 +11991,7 @@ document.addEventListener("click",e=>{
 /* ===== オープニング（OP1、D33。2026-11-19）：その日の初回だけ・その子の夜空・題字と合言葉・今日 思い出す問題・初めての子へのこよみの一言・運と連動する流れ星（小・中・大） ===== */
 // 決まりは「claude/引き継ぎ/アプリの名前とオープニング.md」（D33。相談20、2026-11-19 副塾長が決定）。文はそこで確定したもの（変えるときは副塾長の確認）。
 // 起動の menu()（shell.html の最後）の最初の1回だけ、その日にまだオープニングを見ていなければ、先にオープニングを出してからメニューへ。
+// 相談53（U46、v70）：読み込んだあとに日付が変わったときも出す＝アプリに戻ったとき（visibilitychange・pageshow）にホームが出ていれば、ほかの画面なら次にホームを開いたとき（menu()）。
 //   体験版の trial.js は、このあとで menu を包む（体験版の始めの記録を入れてから、ここに来る）。
 // 数値は CFG.op（仮＝T3）。記録は d.op（足す形。下）。差しこみ口 HK.opMs（マスター版：流れ星を必ず出す・段を選ぶ）。
 // 相談25（2026-11-20、副塾長の依頼）：自動でメニューへ進むのをやめた。メニューへ進むのは［はじめる］を押したときだけ（ほかの所のタップは、こよみの一言を閉じるだけ）。CFG.op.t は使わない。
@@ -12110,10 +12111,31 @@ function opClose(S){S=S||opOn;if(!S||S.done)return;S.done=true;clearTimeout(S.tm
   if(load().lowFx){fin();return}
   el.classList.add("out");setTimeout(fin,260)}
 
-// 起動の menu() の最初の1回だけ、ここを通る
+// 起動の menu() の最初の1回と、相談53（U46、v70）：ホームを開くとき・アプリに戻ったときに、ここを通る
+// ［はじめる］のあとは、いちばん外の menu()（33・40・43・体験版が包んだ形）でホームへ。初めての子は、その前にこよみの①②（31 の tuBoot。TU1・D34）
+//   日付をまたいでオープニングを開いたままだった子は、閉じた日も見た日にする（d.op.day。ホームでもう一度出さない）
+let opPg="";   // このページでオープニングを出すか決めた日（読み込んだとき・オープニングを閉じたとき。記録の読み込みで d.op.day が変わっても、同じ日なら出さない）
+const opGo=()=>{const d=load(),r=opR(d);opPg=opDay();if(r.day!==opPg){r.day=opPg;save(d)}
+  if(typeof tuBoot==="function"&&tuBoot(()=>menu()))return;menu()};
+// 読み込んだあとに日付が変わったか（HK.opForce は見ない。確かめの道具が opNeed を false にしていれば出さない）
+const opNewDay=()=>{const t=opDay();return opPg!==t&&opNeed()&&opR(load()).day!==t};
+// 重なっているもの（箱・演出・初見の説明・チュートリアル・こよみの全画面・本能寺／関ヶ原の演出・オープニング）。inl：ホームの中の初見の説明も見る
+const opBusy=inl=>!!(opOn||document.querySelector("#op,.tu,.fx,.dlg,.kofull,.honfx,.henfx,.tkfx,.kufx,.kutalk")||inl&&app.querySelector(".shk"));
 {const m0=menu;let first=true;
- menu=function(){if(first){first=false;const go=()=>{if(typeof tuBoot==="function"&&tuBoot(()=>m0()))return;m0()};   // TU1（D34）：初めての子は、オープニングのあと、メニューの前にこよみの①②（31_tutorial.js）
-   if(opNeed()){opShow(go);return}return go()}return m0.apply(this,arguments)}}
+ menu=function(){
+   if(first){first=false;opPg=opDay();if(opNeed()){opShow(opGo);return}
+     if(typeof tuBoot==="function"&&tuBoot(()=>menu()))return;return m0.apply(this,arguments)}
+   if(opNewDay()&&!opBusy(false)){clearInterval(tick);clearTimeout(adv);if(st)st.done=true;opShow(opGo);return}   // 相談53：ホームを開くとき日付が変わっていれば、先にオープニング（問題の時計は menu と同じく止める）
+   return m0.apply(this,arguments)}}
+// 相談53：アプリに戻ったとき（見えるようになった・bfcache から戻った）。ホームが出ていて何も重なっていないときだけ。ほかの画面なら、次にホームを開いたとき（上）
+//   ホームに箱（こよみの知らせなど）が重なっていたら、その箱が閉じるのを待って出す（閉じたときにホームでなくなっていれば、次にホームを開いたとき）
+let opWait=null;
+function opBack(){if(document.visibilityState==="hidden"||!opNewDay())return;
+  if(!app.querySelector(".home"))return;
+  if(opBusy(true)){if(!opWait){opWait=new MutationObserver(()=>{if(opBusy(true))return;opWait.disconnect();opWait=null;setTimeout(opBack,0)});opWait.observe(document.body,{childList:true,subtree:true})}return}
+  opShow(opGo)}
+document.addEventListener("visibilitychange",opBack);
+window.addEventListener("pageshow",e=>{if(e.persisted)opBack()});
 /* ===== 初回のチュートリアル（TU1、D34。2026-11-19）：初めて開いた子にだけ、こよみが最初のミックスを解きながら要所で一言（せりふ7つ）。体験版は⑤〜⑦を置きかえの1文に ===== */
 // 決まりは「claude/引き継ぎ/初回のチュートリアル.md」（D34。相談21、2026-11-19 副塾長が決定）。せりふは副塾長が確定したもの（⑥は TU1 のチャットで副塾長が直した）。文を変えるときは副塾長の確認。
 // 教えるのは3つだけ：記憶の灯（★）・日をあけて★3になると夜空に星が灯ること・今日の復習。スキル・店・ボスなどは教えない。
